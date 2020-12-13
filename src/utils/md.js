@@ -1,11 +1,9 @@
 import hljs from 'highlight.js';
 import MarkdownIt from 'markdown-it';
-import taskList from './markdown/task-list';
-import MermaidPlugIn from './markdown/mermaid';
 
 const md = new MarkdownIt({
   html: true,
-  linkify: false, // should be false to fix b/156541739
+  linkify: false,
   typographer: true,
   highlight: (str, lang) => {
     if (lang && hljs.getLanguage(lang)) {
@@ -16,9 +14,7 @@ const md = new MarkdownIt({
 
     return ''; // use external default escaping
   },
-})
-  .use(taskList)
-  .use(MermaidPlugIn);
+});
 
 export const mdRender = mdContent => {
   return md.render(mdContent);
