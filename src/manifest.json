@@ -1,5 +1,5 @@
 {
-  "name": "Web Notes & Comments",
+  "name": "SaltyNote",
   "description": "An extension that helps you take comments and notes for any page",
   "version": "0.1.0",
   "manifest_version": 2,
@@ -9,7 +9,7 @@
     "144": "icons/icon.png"
   },
   "browser_action": {
-    "default_title": "Web Notes & Comments"
+    "default_title": "SaltyNote"
   },
   "background": {
     "scripts": ["background.js"],
