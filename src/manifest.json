@@ -1,0 +1,51 @@
+{
+  "name": "Web Notes & Comments",
+  "description": "An extension that helps you take comments and notes for any page",
+  "version": "0.1.0",
+  "manifest_version": 2,
+  "icons": {
+    "48": "icons/icon.png",
+    "128": "icons/icon.png",
+    "144": "icons/icon.png"
+  },
+  "browser_action": {
+    "default_title": "Web Notes & Comments"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "options_page": "options/options.html",
+  "permissions": ["activeTab", "contextMenus", "tabs"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["overlay/overlay.js"],
+      "css": ["bs4.css", "overlay/overlay.css"]
+    }
+  ],
+  "commands": {
+    "HIGHLIGHT_TOGGLE": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+X",
+        "mac": "Command+Shift+X"
+      },
+      "description": "Toggle highlight for current page"
+    },
+    "OPEN_OPTIONS_PAGE": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+O",
+        "mac": "Command+Shift+O"
+      },
+      "description": "Open Options Page"
+    },
+    "OPEN_NOTES_PAGE": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+N",
+        "mac": "Command+Shift+N"
+      },
+      "description": "Open Notes Page"
+    }
+  },
+  "web_accessible_resources": ["icons/dog.jpg"]
+}
