@@ -66,8 +66,8 @@ $zIndex: 9999;
   width: 400px;
   right: 0;
 
-  .custom-note-body {
-    width: 100%;
+  div.custom-note-body.card {
+    width: 100% !important;
     position: absolute;
     padding-bottom: 40px;
   }

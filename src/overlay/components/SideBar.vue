@@ -8,14 +8,14 @@
     </div>
     <div class="card-body text-primary overflow-auto">
       <template v-if="showLogin">
-        <div class="form-signin">
+        <div class="user-form">
           <img class="mb-4" src="chrome-extension://baanghljiehhpljdbonfknboakpfajnn/icons/icon.png" alt="" width="72" height="72" />
           <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
           <label class="sr-only">Username</label>
-          <input type="text" class="form-control" placeholder="Username" required autofocus />
+          <input type="text" class="form-control" placeholder="Username" v-model="user.username" autofocus />
           <label class="sr-only">Password</label>
-          <input type="password" class="form-control" placeholder="Password" required />
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+          <input type="password" class="form-control" placeholder="Password" v-model="user.password" />
+          <button class="btn btn-lg btn-primary btn-block" @click="login">Login</button>
           <p>
             Don't have an account?
             <a
@@ -30,16 +30,18 @@
         </div>
       </template>
       <template v-else-if="showSignup">
-        <div class="form-signin">
+        <div class="user-form">
           <img class="mb-4" src="chrome-extension://baanghljiehhpljdbonfknboakpfajnn/icons/icon.png" alt="" width="72" height="72" />
           <h1 class="h3 mb-3 font-weight-normal">Please Signup</h1>
           <label class="sr-only">Username</label>
-          <input type="text" class="form-control" placeholder="Username" required autofocus />
+          <input type="text" class="form-control" placeholder="Username" v-model="user.username" autofocus />
           <label class="sr-only">Email</label>
-          <input type="email" class="form-control" placeholder="Your Email" required autofocus />
+          <input type="email" class="form-control" placeholder="Your Email" v-model="user.email" />
           <label class="sr-only">Password</label>
-          <input type="password" class="form-control" placeholder="Password" required />
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Signup</button>
+          <input type="password" class="form-control" placeholder="Password" v-model="user.password" />
+          <label class="sr-only">Password Confirmation</label>
+          <input type="password" class="form-control" placeholder="Password Confirmation" v-model="user.passwordCfm" />
+          <button class="btn btn-lg btn-primary btn-block" @click="signup">Signup</button>
           <p>
             Have An Account ?
             <a
@@ -102,7 +104,7 @@
     </div>
 
     <div class="card-footer text-muted text-center">
-      <a href="#" title="Add Notes without Select Context" @click.prevent="showCustomNote"> Add Custom Note</a>
+      <a href="#" title="Add Notes without Select Context" @click.prevent="showCustomNote"> Add Page Note</a>
     </div>
   </div>
 </template>
@@ -128,6 +130,12 @@ export default {
       showCustomNoteWindow: false,
       showLogin: false,
       showSignup: false,
+      user: {
+        username: '',
+        password: '',
+        passwordCfm: '',
+        email: '',
+      },
     };
   },
   mounted() {
@@ -219,15 +227,21 @@ export default {
     markdown(val) {
       return mdRender(val);
     },
+    login() {
+      console.log('login: user = ', JSON.stringify(this.user));
+    },
+    signup() {
+      console.log('signup: user = ', JSON.stringify(this.user));
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
 $zIndex: 9999;
-#crx-side-bar {
+div#crx-side-bar.card.text-white {
   height: 100vh;
-  width: 400px;
+  width: 400px !important;
   position: fixed;
   background-color: #ffffff;
   z-index: $zIndex;
@@ -249,45 +263,46 @@ $zIndex: 9999;
     }
   }
 
-  .form-signin {
+  .user-form {
     width: 100%;
     max-width: 330px;
     padding: 15px;
     margin: auto;
     text-align: center;
-  }
-  .form-signin .checkbox {
-    font-weight: 400;
-  }
-  .form-signin .form-control {
-    position: relative;
-    box-sizing: border-box;
-    height: auto;
-    padding: 10px;
-    font-size: 16px;
-  }
-  .form-signin .form-control:focus {
-    z-index: 2;
-  }
-  .form-signin input[type='text'] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-  .form-signin input[type='email'] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-  .form-signin input[type='password'] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
 
-  .link-mouse {
-    cursor: pointer;
-    text-decoration: none;
+    .checkbox {
+      font-weight: 400;
+    }
+
+    .form-control {
+      position: relative;
+      box-sizing: border-box;
+      height: auto;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    p {
+      color: #454343;
+    }
+
+    .form-control:focus {
+      z-index: 2;
+    }
+
+    input {
+      margin-bottom: -1px;
+      border-radius: 0;
+    }
+
+    button {
+      margin-top: 11px;
+    }
+
+    .link-mouse {
+      cursor: pointer;
+      text-decoration: none;
+    }
   }
 }
 
