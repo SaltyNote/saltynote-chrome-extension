@@ -52,8 +52,9 @@ export const login = (username, password) => {
       .then(response => {
         // Token should be returned here.
         console.log('login response = ', JSON.stringify(response));
-        chrome.storage.sync.set({ token: response }, function() {
-          resolve(response.access_token);
+        const token = response.data;
+        chrome.storage.sync.set({ token: token }, function() {
+          resolve(token.access_token);
         });
       })
       .catch(error => {
@@ -93,9 +94,10 @@ export const refreshToken = refreshToken => {
       .then(response => {
         // Token should be returned here.
         console.log('login response = ', JSON.stringify(response));
-        response.refresh_token = refreshToken;
-        chrome.storage.sync.set({ token: response }, function() {
-          resolve(response.access_token);
+        const token = response.data;
+        token.refresh_token = refreshToken;
+        chrome.storage.sync.set({ token: token }, function() {
+          resolve(token.access_token);
         });
       })
       .catch(error => {
@@ -115,7 +117,7 @@ export const fetchAllMyNotes = () => {
           .then(response => {
             // Token should be returned here.
             console.log('notes = ', JSON.stringify(response));
-            resolve(response);
+            resolve(response.data);
           })
           .catch(error => {
             console.log(error);
@@ -138,7 +140,7 @@ export const fetchAllMyNotesByUrl = url => {
           .then(response => {
             // Token should be returned here.
             console.log('notes = ', JSON.stringify(response));
-            resolve(response);
+            resolve(response.data);
           })
           .catch(error => {
             console.log(error);
