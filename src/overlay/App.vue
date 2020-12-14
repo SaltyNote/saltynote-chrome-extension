@@ -84,9 +84,6 @@ export default {
         comment: mdRender(note.note),
       });
     },
-    closeCard() {
-      this.resetNote();
-    },
     closeSideBar() {
       unmark();
       this.highlight.cmdToggle = false;
