@@ -53,7 +53,7 @@ export const login = (username, password) => {
         // Token should be returned here.
         console.log('login response = ', JSON.stringify(response));
         const token = response.data;
-        chrome.storage.sync.set({ token: token }, function() {
+        chrome.storage.local.set({ token: token }, function() {
           resolve(token.access_token);
         });
       })
@@ -96,7 +96,7 @@ export const refreshToken = refreshToken => {
         console.log('login response = ', JSON.stringify(response));
         const token = response.data;
         token.refresh_token = refreshToken;
-        chrome.storage.sync.set({ token: token }, function() {
+        chrome.storage.local.set({ token: token }, function() {
           resolve(token.access_token);
         });
       })
