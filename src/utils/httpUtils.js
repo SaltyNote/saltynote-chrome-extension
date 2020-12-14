@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const instance = createInstance('https://api.saltynote.com');
+const instance = createInstance('http://pi.hole:8888');
 
 function createInstance(baseURL) {
   return axios.create({
