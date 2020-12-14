@@ -16,9 +16,8 @@ const getNotes = (tab, actionType) => {
         console.log(response);
       });
     })
-    .catch(error => {
+    .catch(() => {
       // Login is required here.
-      console.error(error);
       chrome.tabs.sendMessage(tab.id, { action: actionType, sub_action: types.SHOW_LOGIN, data: [] }, response => {
         console.log(response);
       });
@@ -92,6 +91,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     login(request.user.username, request.user.password)
       .then(() => {
         console.log('Login succeed');
+        httpUtils
+          .fetchAllMyNotesByUrl(request.url)
+          .then(res => {
+            console.log('resp = ', JSON.stringify(res));
+          })
+          .catch(err => console.error(err));
       })
       .catch(e => console.error(e));
   }
