@@ -7,7 +7,7 @@ const fetchAccessTokenFromCatch = () => {
         console.error(chrome.runtime.lastError.message);
         reject(chrome.runtime.lastError.message);
       } else {
-        const accessToken = items.token.access_token;
+        const accessToken = ''; // items.token.access_token;
         const decoded = jwt_decode(accessToken);
         // Check whether it is expired.
         if (Date.now() >= decoded.exp * 1000) {
