@@ -25,3 +25,20 @@ export function login(username, password) {
       console.log(error);
     });
 }
+
+// TODO: to be improved
+export function signup(username, email, password) {
+  return instance
+    .post('/signup', {
+      username: username,
+      email: email,
+      password: password,
+    })
+    .then(function(response) {
+      console.log(response);
+      // login(username, password).then(r => )
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+}

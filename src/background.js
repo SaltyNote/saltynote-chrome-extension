@@ -3,6 +3,7 @@ import refreshAuthInfo from './utils/identity';
 import { getSanitizedUrl } from './utils/urls';
 import { removeScriptTags } from './utils/base';
 import { defaultColor } from './utils/color';
+import { signup } from './utils/httpUtils';
 
 global.browser = require('webextension-polyfill');
 
@@ -83,6 +84,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   //     }
   //   })
   //   .then(() => sendResponse({ done: 'true' }));
+
+  if (request.action === types.LOGIN) {
+  }
+  if (request.action === types.SIGNUP) {
+    signup(request.user.username, request.user.email, request.user.password);
+  }
   return true;
 });
 
