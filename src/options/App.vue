@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import refreshUserInfo from '../utils/identity';
+import refreshAuthInfo from '../utils/identity';
 import { getUrlHostname } from '../utils/urls';
 import { formatDate } from '../utils/base';
 import $ from 'jquery';
@@ -54,7 +54,7 @@ export default {
       buttons: ['copyHtml5', 'csvHtml5', 'print'],
       columns: [{ width: '20%' }, { width: '35%' }, { width: '30%' }, { width: '10%' }, { width: '5%' }],
     });
-    refreshUserInfo().then(user => {
+    refreshAuthInfo().then(user => {
       // TODO: fetch notes
       this.dataTable.clear();
       for (const [key, value] of Object.entries(notes)) {
@@ -81,7 +81,7 @@ export default {
   methods: {
     deleteNote(noteId) {
       if (confirm('Are you sure to delete this?')) {
-        refreshUserInfo().then(user => {
+        refreshAuthInfo().then(user => {
           // TODO: delete note
         });
       }

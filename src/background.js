@@ -1,5 +1,5 @@
 import * as types from './utils/action-types';
-import refreshUserInfo from './utils/identity';
+import refreshAuthInfo from './utils/identity';
 import { getSanitizedUrl } from './utils/urls';
 import { removeScriptTags } from './utils/base';
 import { defaultColor } from './utils/color';
@@ -7,7 +7,7 @@ import { defaultColor } from './utils/color';
 global.browser = require('webextension-polyfill');
 
 const getNotes = (tab, actionType) => {
-  refreshUserInfo().then(user => {
+  refreshAuthInfo().then(user => {
     const url = getSanitizedUrl(tab.url);
 
     // TODO: query notes by current url
@@ -46,7 +46,7 @@ chrome.browserAction.onClicked.addListener(tab => {
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  refreshUserInfo()
+  refreshAuthInfo()
     .then(user => {
       // simple filter for remove script tags
       if (request && request.note) {

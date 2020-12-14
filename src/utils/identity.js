@@ -1,28 +1,27 @@
-const authorizeWithGoogle = () =>
-  new Promise((resolve, reject) => {
-    chrome.identity.getAuthToken({ interactive: true }, token => {
-      if (token) {
-        resolve({ token: token });
+import jwt_decode from 'jwt-decode';
+
+const fetchAccessTokenFromCatch = () => {
+  return new Promise(function(resolve, reject) {
+    chrome.storage.local.get('token', function(items) {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError.message);
+        reject(chrome.runtime.lastError.message);
       } else {
-        reject(new Error('Retrieved token is empty'));
+        const accessToken = items.token.access_token;
+        const decoded = jwt_decode(accessToken);
+        // Check whether it is expired.
+        if (Date.now() >= decoded.exp * 1000) {
+          // TODO: Try to refresh token.
+          reject(new Error('Access token is expired, and cannot have it refreshed.'));
+        }
+        resolve(items.token);
       }
     });
   });
+};
 
-const getUserId = () =>
-  new Promise((resolve, reject) => {
-    chrome.identity.getProfileUserInfo(userInfo => {
-      if (userInfo && userInfo.id) {
-        console.log('user id is ', userInfo.id);
-        resolve({ id: userInfo.id });
-      } else {
-        reject(new Error('Cannot read user id info'));
-      }
-    });
-  });
-
-export default function refreshUserInfo() {
-  return Promise.all([authorizeWithGoogle(), getUserId()])
+export default function refreshAuthInfo() {
+  return Promise.all([fetchAccessTokenFromCatch()])
     .then(vals => {
       let result = {};
       vals.forEach(v => {

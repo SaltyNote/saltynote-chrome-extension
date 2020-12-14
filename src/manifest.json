@@ -16,7 +16,7 @@
     "persistent": false
   },
   "options_page": "options/options.html",
-  "permissions": ["activeTab", "contextMenus", "tabs"],
+  "permissions": ["activeTab", "contextMenus", "tabs", "storage"],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
