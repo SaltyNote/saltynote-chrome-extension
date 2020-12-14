@@ -7,7 +7,53 @@
       </button>
     </div>
     <div class="card-body text-primary overflow-auto">
-      <template v-if="notes.length > 0">
+      <template v-if="showLogin">
+        <form class="form-signin">
+          <img class="mb-4" src="chrome-extension://baanghljiehhpljdbonfknboakpfajnn/icons/icon.png" alt="" width="72" height="72" />
+          <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
+          <label class="sr-only">Username</label>
+          <input type="text" class="form-control" placeholder="Username" required autofocus />
+          <label class="sr-only">Password</label>
+          <input type="password" class="form-control" placeholder="Password" required />
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+          <p>
+            Don't have an account?
+            <a
+              href="#"
+              @click="
+                showLogin = false;
+                showSignup = true;
+              "
+              >Sign Up</a
+            >
+          </p>
+        </form>
+      </template>
+      <template v-else-if="showSignup">
+        <form class="form-signin">
+          <img class="mb-4" src="chrome-extension://baanghljiehhpljdbonfknboakpfajnn/icons/icon.png" alt="" width="72" height="72" />
+          <h1 class="h3 mb-3 font-weight-normal">Please Signup</h1>
+          <label class="sr-only">Username</label>
+          <input type="text" class="form-control" placeholder="Username" required autofocus />
+          <label class="sr-only">Email</label>
+          <input type="email" class="form-control" placeholder="Your Email" required autofocus />
+          <label class="sr-only">Password</label>
+          <input type="password" class="form-control" placeholder="Password" required />
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Signup</button>
+          <p>
+            Have An Account ?
+            <a
+              href="#"
+              @click="
+                showLogin = true;
+                showSignup = false;
+              "
+              >Login</a
+            >!
+          </p>
+        </form>
+      </template>
+      <template v-else-if="notes.length > 0">
         <div class="list-group">
           <a href="javascript:void(0)" @click="noteHighlight(note)" class="list-group-item list-group-item-action" v-for="(note, index) in notes" :key="note.id">
             <template v-if="note.isCustom">
@@ -67,7 +113,7 @@ import NoAnnotationPlaceholder from './NoAnnotationPlaceholder';
 import ColorSelect from './ColorSelect';
 import { colorToClassName, defaultColor } from '../../utils/color';
 import * as types from '../../utils/action-types';
-import { loadPageAnnotations, updatePageAnnotation, deletePageAnnotation } from '../../utils/page-annotation';
+import { deletePageAnnotation, loadPageAnnotations, updatePageAnnotation } from '../../utils/page-annotation';
 import { highlight } from '../../utils/highlight-mark';
 import { mdRender } from '../../utils/md';
 import SelectedTextBlockquote from './SelectedTextBlockquote';
@@ -80,6 +126,8 @@ export default {
       notes: [],
       showSideBar: false,
       showCustomNoteWindow: false,
+      showLogin: false,
+      showSignup: false,
     };
   },
   mounted() {
@@ -89,7 +137,12 @@ export default {
           this.showCustomNoteWindow = false;
         }
         this.showSideBar = true;
-        this.notes = loadPageAnnotations(request.data);
+        this.showLogin = this.showSignup = false; // Reset first.
+        if (request.sub_action === types.SHOW_LOGIN) {
+          this.showLogin = true;
+        } else {
+          this.notes = loadPageAnnotations(request.data);
+        }
       }
       sendResponse({ done: true });
       return true;
@@ -194,6 +247,42 @@ $zIndex: 9999;
     .del-btn {
       color: red;
     }
+  }
+
+  .form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+    text-align: center;
+  }
+  .form-signin .checkbox {
+    font-weight: 400;
+  }
+  .form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+  }
+  .form-signin .form-control:focus {
+    z-index: 2;
+  }
+  .form-signin input[type='text'] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .form-signin input[type='email'] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .form-signin input[type='password'] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
   }
 }
 

@@ -47,5 +47,5 @@
       "description": "Open Notes Page"
     }
   },
-  "web_accessible_resources": ["icons/dog.jpg"]
+  "web_accessible_resources": ["icons/dog.jpg", "icons/icon.png"]
 }

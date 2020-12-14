@@ -16,7 +16,7 @@ const getNotes = (tab, actionType) => {
   // });
   // });
 
-  chrome.tabs.sendMessage(tab.id, { action: actionType, data: [] }, response => {
+  chrome.tabs.sendMessage(tab.id, { action: actionType, sub_action: types.SHOW_LOGIN, data: [] }, response => {
     console.log(response);
   });
 };
