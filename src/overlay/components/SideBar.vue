@@ -229,24 +229,14 @@ export default {
     },
     login() {
       console.log('login: user = ', JSON.stringify(this.user));
-      const payload = {
-        action: types.LOGIN,
-        user: this.user,
-        url: window.location.href,
-      };
-      chrome.runtime.sendMessage(payload, response => {
+      chrome.runtime.sendMessage({ action: types.LOGIN, user: this.user }, response => {
         console.log(response);
         return true;
       });
     },
     signup() {
       console.log('signup: user = ', JSON.stringify(this.user));
-      const payload = {
-        action: types.SIGNUP,
-        user: this.user,
-        url: window.location.href,
-      };
-      chrome.runtime.sendMessage(payload, response => {
+      chrome.runtime.sendMessage({ action: types.SIGNUP, user: this.user }, response => {
         console.log(response);
         return true;
       });

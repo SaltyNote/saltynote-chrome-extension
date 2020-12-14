@@ -86,17 +86,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   //     }
   //   })
   //   .then(() => sendResponse({ done: 'true' }));
-
   if (request.action === types.LOGIN) {
     login(request.user.username, request.user.password)
       .then(() => {
         console.log('Login succeed');
-        httpUtils
-          .fetchAllMyNotesByUrl(request.url)
-          .then(res => {
-            console.log('resp = ', JSON.stringify(res));
-          })
-          .catch(err => console.error(err));
+        getNotes(sender.tab, types.SHOW_SIDE_BAR);
       })
       .catch(e => console.error(e));
   }
