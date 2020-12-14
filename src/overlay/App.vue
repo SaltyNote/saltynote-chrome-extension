@@ -96,6 +96,7 @@ export default {
 </script>
 
 <style lang="scss">
+$zIndex: 99999999;
 .saltynote {
   position: absolute;
   top: 0;
@@ -103,11 +104,11 @@ export default {
   width: 0;
   height: 0;
 
+  z-index: $zIndex;
+
   .error-msg {
     color: red;
   }
-
-  $zIndex: 9999;
 
   .crx-highlight-card {
     position: absolute;
