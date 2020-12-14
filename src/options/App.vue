@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import refreshAuthInfo from '../utils/identity';
 import { getUrlHostname } from '../utils/urls';
 import { formatDate } from '../utils/base';
 import $ from 'jquery';
@@ -54,36 +53,35 @@ export default {
       buttons: ['copyHtml5', 'csvHtml5', 'print'],
       columns: [{ width: '20%' }, { width: '35%' }, { width: '30%' }, { width: '10%' }, { width: '5%' }],
     });
-    refreshAuthInfo().then(user => {
-      // TODO: fetch notes
-      this.dataTable.clear();
-      for (const [key, value] of Object.entries(notes)) {
-        this.dataTable.row
-          .add([
-            `<a href="${value.url}" target="_blank">${getUrlHostname(value.url)}</a>`,
-            value.text,
-            mdRender(value.note),
-            formatDate(value.timestamp),
-            `<button type="button" data-id="${key}" class="btn btn-danger note-delete-btn">Delete</button>`,
-          ])
-          .draw(false);
+    // refreshAuthInfo().then(user => {
+    // TODO: fetch notes
+    const notes = {};
+    this.dataTable.clear();
+    for (const [key, value] of Object.entries(notes)) {
+      this.dataTable.row
+        .add([
+          `<a href="${value.url}" target="_blank">${getUrlHostname(value.url)}</a>`,
+          value.text,
+          mdRender(value.note),
+          formatDate(value.timestamp),
+          `<button type="button" data-id="${key}" class="btn btn-danger note-delete-btn">Delete</button>`,
+        ])
+        .draw(false);
+    }
+    const self = this;
+    $('.note-delete-btn').on('click', function(event) {
+      event.preventDefault();
+      const id = $(this).data('id');
+      if (id) {
+        self.deleteNote(id);
       }
-      const self = this;
-      $('.note-delete-btn').on('click', function(event) {
-        event.preventDefault();
-        const id = $(this).data('id');
-        if (id) {
-          self.deleteNote(id);
-        }
-      });
     });
+    // });
   },
   methods: {
     deleteNote(noteId) {
       if (confirm('Are you sure to delete this?')) {
-        refreshAuthInfo().then(user => {
-          // TODO: delete note
-        });
+        // TODO: delete note
       }
     },
   },
