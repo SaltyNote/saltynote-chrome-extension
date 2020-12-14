@@ -8,7 +8,7 @@
     </div>
     <div class="card-body text-primary overflow-auto">
       <template v-if="showLogin">
-        <form class="form-signin">
+        <div class="form-signin">
           <img class="mb-4" src="chrome-extension://baanghljiehhpljdbonfknboakpfajnn/icons/icon.png" alt="" width="72" height="72" />
           <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
           <label class="sr-only">Username</label>
@@ -19,7 +19,7 @@
           <p>
             Don't have an account?
             <a
-              href="#"
+              class="link-mouse"
               @click="
                 showLogin = false;
                 showSignup = true;
@@ -27,10 +27,10 @@
               >Sign Up</a
             >
           </p>
-        </form>
+        </div>
       </template>
       <template v-else-if="showSignup">
-        <form class="form-signin">
+        <div class="form-signin">
           <img class="mb-4" src="chrome-extension://baanghljiehhpljdbonfknboakpfajnn/icons/icon.png" alt="" width="72" height="72" />
           <h1 class="h3 mb-3 font-weight-normal">Please Signup</h1>
           <label class="sr-only">Username</label>
@@ -43,7 +43,7 @@
           <p>
             Have An Account ?
             <a
-              href="#"
+              class="link-mouse"
               @click="
                 showLogin = true;
                 showSignup = false;
@@ -51,7 +51,7 @@
               >Login</a
             >!
           </p>
-        </form>
+        </div>
       </template>
       <template v-else-if="notes.length > 0">
         <div class="list-group">
@@ -283,6 +283,11 @@ $zIndex: 9999;
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+  }
+
+  .link-mouse {
+    cursor: pointer;
+    text-decoration: none;
   }
 }
 
