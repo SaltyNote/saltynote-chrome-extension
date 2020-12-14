@@ -1,25 +1,28 @@
 import * as types from './utils/action-types';
-import refreshAuthInfo from './utils/identity';
+import * as httpUtils from './utils/httpUtils';
 import { getSanitizedUrl } from './utils/urls';
 import { removeScriptTags } from './utils/base';
 import { defaultColor } from './utils/color';
-import { signup } from './utils/httpUtils';
+import { login, signup } from './utils/httpUtils';
 
 global.browser = require('webextension-polyfill');
 
 const getNotes = (tab, actionType) => {
-  // refreshAuthInfo().then(user => {
-  //   const url = getSanitizedUrl(tab.url);
-  // TODO: query notes by current url
-  // then send back to tab
-  // chrome.tabs.sendMessage(tab.id, { action: actionType, data: notes }, response => {
-  //   console.log(response);
-  // });
-  // });
-
-  chrome.tabs.sendMessage(tab.id, { action: actionType, sub_action: types.SHOW_LOGIN, data: [] }, response => {
-    console.log(response);
-  });
+  const url = getSanitizedUrl(tab.url);
+  httpUtils
+    .fetchAllMyNotesByUrl(url)
+    .then(notes => {
+      chrome.tabs.sendMessage(tab.id, { action: actionType, data: notes }, response => {
+        console.log(response);
+      });
+    })
+    .catch(error => {
+      // Login is required here.
+      console.error(error);
+      chrome.tabs.sendMessage(tab.id, { action: actionType, sub_action: types.SHOW_LOGIN, data: [] }, response => {
+        console.log(response);
+      });
+    });
 };
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -86,9 +89,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   //   .then(() => sendResponse({ done: 'true' }));
 
   if (request.action === types.LOGIN) {
+    login(request.user.username, request.user.password)
+      .then(() => {
+        console.log('Login succeed');
+      })
+      .catch(e => console.error(e));
   }
   if (request.action === types.SIGNUP) {
-    signup(request.user.username, request.user.email, request.user.password);
+    signup(request.user.username, request.user.email, request.user.password)
+      .then(() => {
+        console.log('sign up succeed');
+      })
+      .catch(e => console.error(e));
   }
   return true;
 });
