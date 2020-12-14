@@ -257,6 +257,10 @@ div#crx-side-bar.card.text-white {
   box-shadow: -12px 0px 25px 0px rgba(0, 0, 0, 0.75);
   border-radius: 10px;
 
+  .card-header {
+    color: white !important;
+  }
+
   .my-note {
     font-weight: normal;
   }
