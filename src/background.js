@@ -43,11 +43,11 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   }
 });
 
-// chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-//   if (changeInfo.status === 'complete' && tab.url && tab.url.toLowerCase().startsWith('http')) {
-//     getNotes(tab, types.HIGHLIGHT_ALL);
-//   }
-// });
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+  if (changeInfo.status === 'complete' && tab.url && tab.url.toLowerCase().startsWith('http')) {
+    getNotes(tab, types.HIGHLIGHT_ALL);
+  }
+});
 
 chrome.browserAction.onClicked.addListener(tab => {
   getNotes(tab, types.SHOW_SIDE_BAR);

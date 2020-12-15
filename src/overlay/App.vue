@@ -77,6 +77,7 @@ export default {
       this.$delete(this.highlight.popover, noteId);
     },
     highlightClick(note, event) {
+      console.log('highlightClick...');
       this.$set(this.highlight.popover, note.id, {
         left: event.pageX,
         top: event.pageY,
@@ -107,10 +108,10 @@ $zIndex: 99999999;
     color: red;
   }
 
-  .crx-highlight-card {
+  div.crx-highlight-card.card {
     position: absolute;
     z-index: $zIndex - 10;
-    min-width: 250px;
+    min-width: 250px !important;
 
     .card-body {
       padding: 0 10px;
