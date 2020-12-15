@@ -11,12 +11,12 @@ export default {
 
 <style lang="scss">
 $yellow: #f8bb04;
-.saltynote .saltynote-blockquote {
+.saltynote blockquote.saltynote-blockquote.blockquote {
   position: relative;
   padding-left: 1em;
   border: none;
   border-left: 0.2em solid $yellow;
-  font-size: 0.9rem;
+  font-size: 0.9rem !important;
   font-style: italic;
   color: gray;
   background-color: transparent;
