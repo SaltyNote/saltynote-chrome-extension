@@ -175,3 +175,29 @@ export const savePageAnnotation = pageAnnotation => {
       });
   });
 };
+
+export const updatePageAnnotation = pageAnnotation => {
+  return new Promise((resolve, reject) => {
+    if (!pageAnnotation.id) {
+      reject(new Error('Note update: Missing note id.'));
+    }
+    checkUserAuthInfo()
+      .then(res => {
+        const authStr = 'Bearer '.concat(res.access_token);
+        instance
+          .put('/note/' + pageAnnotation.id, pageAnnotation, { headers: { Authorization: authStr } })
+          .then(response => {
+            // Token should be returned here.
+            console.log('note = ', JSON.stringify(response.data));
+            resolve(camelcaseKeys(response.data));
+          })
+          .catch(error => {
+            console.log(error);
+            reject(error);
+          });
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+};

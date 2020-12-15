@@ -75,6 +75,24 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         console.error(err);
       });
   }
+
+  if (request.action === types.UPDATE_NOTE) {
+    const pa = request.pageAnnotation;
+    const pageAnnotation = {
+      text: pa.text,
+      note: removeScriptTags(pa.note),
+      highlight_color: pa.highlightColor || defaultColor,
+    };
+    httpUtils
+      .updatePageAnnotation(pageAnnotation)
+      .then(res => {
+        console.log('Page annotation is updated successfully!');
+        sendResponse({ done: 'true' });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
   //     if (request.action === types.DELETE_NOTE) {
   //       // TODO: delete note
   //     }
