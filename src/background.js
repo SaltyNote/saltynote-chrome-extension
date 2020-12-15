@@ -79,6 +79,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === types.UPDATE_NOTE) {
     const pa = request.pageAnnotation;
     const pageAnnotation = {
+      id: pa.id,
       text: pa.text,
       note: removeScriptTags(pa.note),
       highlight_color: pa.highlightColor || defaultColor,

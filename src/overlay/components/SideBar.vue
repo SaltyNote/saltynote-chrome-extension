@@ -189,7 +189,6 @@ export default {
       this.toggleSave(index, false);
     },
     updateNote(noteId, index) {
-      console.log('note = ', this.notes[index]);
       const note = this.notes[index];
       if (note.base_note === note.note && (!note.newHighlightColor || note.highlightColor === note.newHighlightColor)) {
         this.cancelUpdate(index);
