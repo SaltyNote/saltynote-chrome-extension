@@ -1,7 +1,9 @@
 <template>
   <div class="color-selector">
     <ul class="list-group">
-      <li class="rounded-circle" @click.prevent="changeColor(c)" :class="{ active: color === c }" v-for="c in colors" :key="c" :style="{ 'background-color': c }">&nbsp;</li>
+      <li class="rounded-circle" @click.prevent="changeColor(c)" :class="{ active: selectedColor === c }" v-for="c in colors" :key="c" :style="{ 'background-color': c }">
+        &nbsp;
+      </li>
     </ul>
   </div>
 </template>
@@ -15,12 +17,13 @@ export default {
   data() {
     return {
       colors: colors,
+      selectedColor: this.color,
     };
   },
   methods: {
     changeColor(color) {
-      this.color = color;
-      this.$emit('update:color', this.color);
+      this.selectedColor = color;
+      this.$emit('update:color', this.selectedColor);
     },
   },
 };
