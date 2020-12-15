@@ -184,7 +184,7 @@ export const updatePageAnnotation = pageAnnotation => {
       .then(res => {
         const authStr = 'Bearer '.concat(res.access_token);
         instance
-          .put('/note/' + pageAnnotation.id, pageAnnotation, { headers: { Authorization: authStr } })
+          .post('/note/' + pageAnnotation.id, pageAnnotation, { headers: { Authorization: authStr } })
           .then(response => {
             // Token should be returned here.
             console.log('note = ', JSON.stringify(response.data));
