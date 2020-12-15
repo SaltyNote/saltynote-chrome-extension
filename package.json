@@ -29,6 +29,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.0",
+    "camelcase-keys": "^6.2.2",
     "crypto-js": "^4.0.0",
     "datatables.net": "^1.10.21",
     "datatables.net-bs4": "^1.10.21",

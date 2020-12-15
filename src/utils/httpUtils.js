@@ -1,5 +1,6 @@
 import axios from 'axios';
-import jwt_decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
+import camelcaseKeys from 'camelcase-keys';
 
 const instance = createInstance('http://pi.hole:8888');
 
@@ -14,7 +15,7 @@ function createInstance(baseURL) {
 
 const isTokenExpired = token => {
   if (!token) return false;
-  const decoded = jwt_decode(token);
+  const decoded = jwtDecode(token);
   return Date.now() >= decoded.exp * 1000;
 };
 
@@ -116,7 +117,7 @@ export const fetchAllMyNotes = () => {
           .then(response => {
             // Token should be returned here.
             console.log('notes = ', JSON.stringify(response.data));
-            resolve(response.data);
+            resolve(camelcaseKeys(response.data));
           })
           .catch(error => {
             console.log(error);
@@ -139,7 +140,7 @@ export const fetchAllMyNotesByUrl = url => {
           .then(response => {
             // Token should be returned here.
             console.log('notes = ', JSON.stringify(response.data));
-            resolve(response.data);
+            resolve(camelcaseKeys(response.data));
           })
           .catch(error => {
             console.log(error);
@@ -162,7 +163,7 @@ export const savePageAnnotation = pageAnnotation => {
           .then(response => {
             // Token should be returned here.
             console.log('note = ', JSON.stringify(response.data));
-            resolve(response.data);
+            resolve(camelcaseKeys(response.data));
           })
           .catch(error => {
             console.log(error);
