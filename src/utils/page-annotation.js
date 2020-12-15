@@ -1,9 +1,10 @@
 import * as types from './action-types';
+import * as baseUtils from './base';
 
 /* pageAnnotation = {
    text: web page selected content
    note: User comment about above selected text
-   pageOnly: if true, it means this annotation is added manually, not from selecting text, e.g. for google docs, annotation on selected text does not work
+   isPageOnly: if true, it means this annotation is added manually, not from selecting text, e.g. for google docs, annotation on selected text does not work
    highlightColor: the color used to highlight the selected text in web page
  }
 
@@ -46,7 +47,7 @@ export const updatePageAnnotation = pageAnnotation => {
 
 export const deletePageAnnotation = pageAnnotationId => {
   return new Promise(function(resolve, reject) {
-    if (pageAnnotationId < 1) {
+    if (baseUtils.isBlank(pageAnnotationId)) {
       reject(new Error('Page Annotation id should be positive number!'));
       return;
     }

@@ -58,7 +58,7 @@
       <template v-else-if="notes.length > 0">
         <div class="list-group">
           <a href="javascript:void(0)" @click="noteHighlight(note)" class="list-group-item list-group-item-action" v-for="(note, index) in notes" :key="note.id">
-            <template v-if="note.pageOnly">
+            <template v-if="note.isPageOnly">
               <label class="text-primary">{{ note.text }}</label>
             </template>
             <template v-else>
@@ -66,7 +66,7 @@
             </template>
             <div class="form-group">
               <template v-if="note.showSave">
-                <ColorSelect v-if="!note.pageOnly" :color="getNoteHighlightColor(note)" @update:color="note.newHighlightColor = $event"></ColorSelect>
+                <ColorSelect v-if="!note.isPageOnly" :color="getNoteHighlightColor(note)" @update:color="note.newHighlightColor = $event"></ColorSelect>
                 <textarea class="form-control" rows="3" v-model="note.note"></textarea>
               </template>
               <div class="shadow-none p-3 bg-light rounded" v-else v-html="markdown(note.note)"></div>
@@ -201,7 +201,7 @@ export default {
     },
     noteHighlight(note) {
       // if it is a custom note, no need to highlight it in current page
-      if (note.pageOnly) {
+      if (note.isPageOnly) {
         return;
       }
       highlight(note);

@@ -35,7 +35,7 @@ export default {
       const pageAnnotation = {
         text: this.selectText,
         note: this.myComment,
-        pageOnly: true,
+        isPageOnly: true,
       };
       submitPageAnnotation(pageAnnotation)
         .then(() => {

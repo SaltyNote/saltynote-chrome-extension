@@ -26,7 +26,7 @@ export function highlightAll(notes) {
   instance.unmark({
     done: () => {
       notes.forEach(note => {
-        if (!note.pageOnly) {
+        if (!note.isPageOnly) {
           instance.mark(note.text, options(note));
         }
       });
