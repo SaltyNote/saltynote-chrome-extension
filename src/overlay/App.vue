@@ -24,7 +24,6 @@ import { highlightAll, unmark } from '../utils/highlight-mark';
 import { mdRender } from '../utils/md';
 import AnnotationCard from './components/AnnotationCard';
 import SideBar from './components/SideBar';
-import { loadPageAnnotations } from '../utils/page-annotation';
 
 export default {
   name: 'App',
@@ -49,7 +48,7 @@ export default {
         // only trigger it when page refresh
         if (this.highlight.doneForPageLoad) return;
         console.log(types.HIGHLIGHT_ALL);
-        this.notes = loadPageAnnotations(request.data);
+        this.notes = request.data;
         this.notes.forEach(note => (note.clickCallback = this.highlightClick));
         highlightAll(this.notes);
         this.highlight.doneForPageLoad = true;

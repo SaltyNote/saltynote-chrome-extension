@@ -63,7 +63,7 @@ export default {
           `<a href="${value.url}" target="_blank">${getUrlHostname(value.url)}</a>`,
           value.text,
           mdRender(value.note),
-          formatDate(value.timestamp),
+          formatDate(value.createdTime),
           `<button type="button" data-id="${key}" class="btn btn-danger note-delete-btn">Delete</button>`,
         ])
         .draw(false);

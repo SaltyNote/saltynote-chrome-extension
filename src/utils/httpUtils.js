@@ -139,7 +139,6 @@ export const fetchAllMyNotesByUrl = url => {
           .post('/notes', { url: url }, { headers: { Authorization: authStr } })
           .then(response => {
             // Token should be returned here.
-            console.log('notes = ', JSON.stringify(response.data));
             resolve(camelcaseKeys(response.data));
           })
           .catch(error => {

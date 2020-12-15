@@ -57,15 +57,3 @@ export const deletePageAnnotation = pageAnnotationId => {
     });
   });
 };
-
-export const loadPageAnnotations = data => {
-  const notes = [];
-  if (data && Object.keys(data).length > 0) {
-    for (const [key, value] of Object.entries(data)) {
-      value.timestamp = readableTimestamp(value.timestamp);
-      const note = { ...{ id: key }, ...value, ...{ base_note: value.note } };
-      notes.push(note);
-    }
-  }
-  return notes;
-};

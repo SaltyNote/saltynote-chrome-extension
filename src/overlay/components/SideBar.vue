@@ -73,7 +73,7 @@
             </div>
             <div class="row my-btn-group">
               <div class="col-md-6">
-                <small>{{ note.timestamp }}</small>
+                <small>{{ readableTime(note.createdTime) }}</small>
               </div>
               <div class="offset-md-3 col-md-3">
                 <template v-if="!note.showSave">
@@ -115,9 +115,10 @@ import NoAnnotationPlaceholder from './NoAnnotationPlaceholder';
 import ColorSelect from './ColorSelect';
 import { colorToClassName, defaultColor } from '../../utils/color';
 import * as types from '../../utils/action-types';
-import { deletePageAnnotation, loadPageAnnotations, updatePageAnnotation } from '../../utils/page-annotation';
+import { deletePageAnnotation, updatePageAnnotation } from '../../utils/page-annotation';
 import { highlight } from '../../utils/highlight-mark';
 import { mdRender } from '../../utils/md';
+import { readableTimestamp } from '../../utils/base';
 import SelectedTextBlockquote from './SelectedTextBlockquote';
 
 export default {
@@ -149,7 +150,7 @@ export default {
         if (request.sub_action === types.SHOW_LOGIN) {
           this.showLogin = true;
         } else {
-          this.notes = loadPageAnnotations(request.data);
+          this.notes = request.data;
         }
       }
       sendResponse({ done: true });
@@ -240,6 +241,9 @@ export default {
         console.log(response);
         return true;
       });
+    },
+    readableTime(ts) {
+      return readableTimestamp(ts);
     },
   },
 };
