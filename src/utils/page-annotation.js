@@ -4,7 +4,7 @@ import { isBlank, readableTimestamp } from './base';
 /* pageAnnotation = {
    text: web page selected content
    note: User comment about above selected text
-   isCustom: if true, it means this annotation is added manually, not from selecting text, e.g. for google docs, annotation on selected text does not work
+   pageOnly: if true, it means this annotation is added manually, not from selecting text, e.g. for google docs, annotation on selected text does not work
    highlightColor: the color used to highlight the selected text in web page
  }
 

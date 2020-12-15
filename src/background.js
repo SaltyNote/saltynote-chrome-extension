@@ -62,7 +62,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       text: pa.text,
       note: removeScriptTags(pa.note),
       highlight_color: pa.highlightColor || defaultColor,
-      page_only: pa.isCustom || false,
+      page_only: pa.pageOnly || false,
       url: getSanitizedUrl(sender.tab.url),
     };
     httpUtils
