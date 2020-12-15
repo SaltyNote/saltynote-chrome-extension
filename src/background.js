@@ -17,10 +17,12 @@ const getNotes = (tab, actionType) => {
       });
     })
     .catch(() => {
-      // Login is required here.
-      chrome.tabs.sendMessage(tab.id, { action: actionType, sub_action: types.SHOW_LOGIN, data: [] }, response => {
-        console.log(response);
-      });
+      // Login is required here when action is show side bar.
+      if (actionType === types.SHOW_SIDE_BAR) {
+        chrome.tabs.sendMessage(tab.id, { action: actionType, sub_action: types.SHOW_LOGIN, data: [] }, response => {
+          console.log(response);
+        });
+      }
     });
 };
 
@@ -53,8 +55,6 @@ chrome.browserAction.onClicked.addListener(tab => {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log('request received:', JSON.stringify(request));
-  // refreshAuthInfo()
-  //   .then(user => {
   //     // simple filter for remove script tags
   //     if (request && request.note) {
   //       request.note = removeScriptTags(request.note);
@@ -84,8 +84,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   //       };
   //       // TODO: UPDATE note
   //     }
-  //   })
-  //   .then(() => sendResponse({ done: 'true' }));
+
   if (request.action === types.LOGIN) {
     login(request.user.username, request.user.password)
       .then(() => {
@@ -98,6 +97,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     signup(request.user.username, request.user.email, request.user.password)
       .then(() => {
         console.log('sign up succeed');
+        getNotes(sender.tab, types.SHOW_SIDE_BAR);
       })
       .catch(e => console.error(e));
   }
