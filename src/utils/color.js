@@ -11,5 +11,5 @@ export const colors = colors_;
 export const defaultColor = colors_[0];
 export const colorToClassName = color => {
   color = color || defaultColor;
-  return color.replace('#', 'web-note-');
+  return color.replace('#', 'saltynote-');
 };
