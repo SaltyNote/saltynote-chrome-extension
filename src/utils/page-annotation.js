@@ -1,5 +1,4 @@
 import * as types from './action-types';
-import { isBlank, readableTimestamp } from './base';
 
 /* pageAnnotation = {
    text: web page selected content
@@ -47,8 +46,8 @@ export const updatePageAnnotation = pageAnnotation => {
 
 export const deletePageAnnotation = pageAnnotationId => {
   return new Promise(function(resolve, reject) {
-    if (isBlank(pageAnnotationId)) {
-      reject(new Error('Page Annotation id should not be empty!'));
+    if (pageAnnotationId < 1) {
+      reject(new Error('Page Annotation id should be positive number!'));
       return;
     }
     chrome.runtime.sendMessage({ id: pageAnnotationId, action: types.DELETE_NOTE }, response => {

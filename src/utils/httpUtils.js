@@ -115,8 +115,6 @@ export const fetchAllMyNotes = () => {
         instance
           .get('/notes', { headers: { Authorization: authStr } })
           .then(response => {
-            // Token should be returned here.
-            console.log('notes = ', JSON.stringify(response.data));
             resolve(camelcaseKeys(response.data));
           })
           .catch(error => {
@@ -138,7 +136,6 @@ export const fetchAllMyNotesByUrl = url => {
         instance
           .post('/notes', { url: url }, { headers: { Authorization: authStr } })
           .then(response => {
-            // Token should be returned here.
             resolve(camelcaseKeys(response.data));
           })
           .catch(error => {
@@ -160,8 +157,6 @@ export const savePageAnnotation = pageAnnotation => {
         instance
           .post('/note', pageAnnotation, { headers: { Authorization: authStr } })
           .then(response => {
-            // Token should be returned here.
-            console.log('note = ', JSON.stringify(response.data));
             resolve(camelcaseKeys(response.data));
           })
           .catch(error => {
@@ -186,9 +181,31 @@ export const updatePageAnnotation = pageAnnotation => {
         instance
           .post('/note/' + pageAnnotation.id, pageAnnotation, { headers: { Authorization: authStr } })
           .then(response => {
-            // Token should be returned here.
-            console.log('note = ', JSON.stringify(response.data));
             resolve(camelcaseKeys(response.data));
+          })
+          .catch(error => {
+            console.log(error);
+            reject(error);
+          });
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+};
+
+export const deletePageAnnotation = pageAnnotationId => {
+  return new Promise((resolve, reject) => {
+    if (!pageAnnotationId || pageAnnotationId < 0) {
+      reject(new Error('Note id to delete is not valid'));
+    }
+    checkUserAuthInfo()
+      .then(res => {
+        const authStr = 'Bearer '.concat(res.access_token);
+        instance
+          .post('/note/' + pageAnnotationId + '/delete', {}, { headers: { Authorization: authStr } })
+          .then(response => {
+            resolve();
           })
           .catch(error => {
             console.log(error);

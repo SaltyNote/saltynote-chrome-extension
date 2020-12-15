@@ -221,6 +221,7 @@ export default {
       if (confirm('Sure to delete this note?')) {
         deletePageAnnotation(noteId).then(() => {
           console.log('Page annotation is deleted');
+          this.notes = this.notes.filter(n => noteId !== n.id);
         });
       }
     },
