@@ -104,7 +104,7 @@ export default {
           this.selectText = '';
           this.myComment = '';
           this.highlightColor = defaultColor;
-          this.showAnnotationCard = false;
+          this.closeCard();
         })
         .catch(err => {
           this.errorMsg = err.message;

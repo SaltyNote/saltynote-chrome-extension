@@ -93,7 +93,6 @@ export const refreshToken = refreshToken => {
       })
       .then(response => {
         // Token should be returned here.
-        console.log('login response = ', JSON.stringify(response));
         const token = response.data;
         token.refresh_token = refreshToken;
         chrome.storage.local.set({ token: token }, function() {
@@ -116,7 +115,7 @@ export const fetchAllMyNotes = () => {
           .get('/notes', { headers: { Authorization: authStr } })
           .then(response => {
             // Token should be returned here.
-            console.log('notes = ', JSON.stringify(response));
+            console.log('notes = ', JSON.stringify(response.data));
             resolve(response.data);
           })
           .catch(error => {
@@ -139,7 +138,30 @@ export const fetchAllMyNotesByUrl = url => {
           .post('/notes', { url: url }, { headers: { Authorization: authStr } })
           .then(response => {
             // Token should be returned here.
-            console.log('notes = ', JSON.stringify(response));
+            console.log('notes = ', JSON.stringify(response.data));
+            resolve(response.data);
+          })
+          .catch(error => {
+            console.log(error);
+            reject(error);
+          });
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+};
+
+export const savePageAnnotation = pageAnnotation => {
+  return new Promise((resolve, reject) => {
+    checkUserAuthInfo()
+      .then(res => {
+        const authStr = 'Bearer '.concat(res.access_token);
+        instance
+          .post('/note', pageAnnotation, { headers: { Authorization: authStr } })
+          .then(response => {
+            // Token should be returned here.
+            console.log('note = ', JSON.stringify(response.data));
             resolve(response.data);
           })
           .catch(error => {

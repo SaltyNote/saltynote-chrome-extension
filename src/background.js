@@ -55,23 +55,26 @@ chrome.browserAction.onClicked.addListener(tab => {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log('request received:', JSON.stringify(request));
-  //     // simple filter for remove script tags
-  //     if (request && request.note) {
-  //       request.note = removeScriptTags(request.note);
-  //     }
-  //
-  //     if (request.action === types.ADD_NOTE) {
-  //       const pa = request.pageAnnotation;
-  //       const pageAnnotation = {
-  //         text: pa.text,
-  //         note: pa.note,
-  //         highlightColor: pa.highlightColor || defaultColor,
-  //         isCustom: pa.isCustom || false,
-  //         url: getSanitizedUrl(sender.tab.url),
-  //         timestamp: new Date().getTime(),
-  //       };
-  //       // TODO: save note
-  //     }
+
+  if (request.action === types.ADD_NOTE) {
+    const pa = request.pageAnnotation;
+    const pageAnnotation = {
+      text: pa.text,
+      note: removeScriptTags(pa.note),
+      highlight_color: pa.highlightColor || defaultColor,
+      page_only: pa.isCustom || false,
+      url: getSanitizedUrl(sender.tab.url),
+    };
+    httpUtils
+      .savePageAnnotation(pageAnnotation)
+      .then(res => {
+        console.log('save new page annotation successfully!');
+        sendResponse({ done: 'true' });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
   //     if (request.action === types.DELETE_NOTE) {
   //       // TODO: delete note
   //     }
@@ -90,6 +93,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       .then(() => {
         console.log('Login succeed');
         getNotes(sender.tab, types.SHOW_SIDE_BAR);
+        sendResponse({ done: 'true' });
       })
       .catch(e => console.error(e));
   }
@@ -98,6 +102,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       .then(() => {
         console.log('sign up succeed');
         getNotes(sender.tab, types.SHOW_SIDE_BAR);
+        sendResponse({ done: 'true' });
       })
       .catch(e => console.error(e));
   }
