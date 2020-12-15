@@ -1,9 +1,9 @@
 import * as types from './utils/action-types';
 import * as httpUtils from './utils/httpUtils';
+import { login, signup } from './utils/httpUtils';
 import { getSanitizedUrl } from './utils/urls';
 import { removeScriptTags } from './utils/base';
 import { defaultColor } from './utils/color';
-import { login, signup } from './utils/httpUtils';
 
 global.browser = require('webextension-polyfill');
 
@@ -94,18 +94,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         console.error(err);
       });
   }
-  //     if (request.action === types.DELETE_NOTE) {
-  //       // TODO: delete note
-  //     }
-  //     if (request.action === types.UPDATE_NOTE) {
-  //       if (!request.pageAnnotation.id) return;
-  //       note = {
-  //         note: removeScriptTags(request.pageAnnotation.note || ''),
-  //         highlightColor: request.pageAnnotation.highlightColor || defaultColor,
-  //         timestamp: new Date().getTime(),
-  //       };
-  //       // TODO: UPDATE note
-  //     }
+
+  if (request.action === types.DELETE_NOTE) {
+    httpUtils
+      .deletePageAnnotation(request.id)
+      .then(res => {
+        console.log('Page annotation is deleted successfully!');
+        sendResponse({ done: 'true' });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
 
   if (request.action === types.LOGIN) {
     login(request.user.username, request.user.password)

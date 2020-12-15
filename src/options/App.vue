@@ -2,7 +2,7 @@
   <div class="container">
     <div class="py-5 text-center">
       <img class="d-block mx-auto mb-4" src="/icons/icon.png" alt="" />
-      <h2>Manage All My Notes</h2>
+      <h2>SaltyNote Dashboard</h2>
     </div>
 
     <div class="row">
@@ -35,6 +35,7 @@ import 'datatables.net-buttons/js/buttons.html5.min';
 import 'datatables.net-buttons/js/buttons.print.min';
 import { mdRender } from '../utils/md';
 import 'highlight.js/styles/github.css';
+import * as httpUtils from '../utils/httpUtils';
 
 export default {
   name: 'App',
@@ -53,35 +54,46 @@ export default {
       buttons: ['copyHtml5', 'csvHtml5', 'print'],
       columns: [{ width: '20%' }, { width: '35%' }, { width: '30%' }, { width: '10%' }, { width: '5%' }],
     });
-    // refreshAuthInfo().then(user => {
-    // TODO: fetch notes
-    const notes = {};
-    this.dataTable.clear();
-    for (const [key, value] of Object.entries(notes)) {
-      this.dataTable.row
-        .add([
-          `<a href="${value.url}" target="_blank">${getUrlHostname(value.url)}</a>`,
-          value.text,
-          mdRender(value.note),
-          formatDate(value.createdTime),
-          `<button type="button" data-id="${key}" class="btn btn-danger note-delete-btn">Delete</button>`,
-        ])
-        .draw(false);
-    }
-    const self = this;
-    $('.note-delete-btn').on('click', function(event) {
-      event.preventDefault();
-      const id = $(this).data('id');
-      if (id) {
-        self.deleteNote(id);
-      }
-    });
-    // });
+    this.refreshTableData();
   },
   methods: {
+    refreshTableData() {
+      httpUtils.fetchAllMyNotes().then(notes => {
+        this.dataTable.clear();
+        notes.forEach(note => {
+          this.dataTable.row
+            .add([
+              `<a href="${note.url}" target="_blank">${getUrlHostname(note.url)}</a>`,
+              note.text,
+              mdRender(note.note),
+              formatDate(note.createdTime),
+              `<button type="button" data-id="${note.id}" class="btn btn-danger note-delete-btn">Delete</button>`,
+            ])
+            .draw(false);
+        });
+
+        const self = this;
+        $(document).on('click', '.note-delete-btn', function(event) {
+          event.preventDefault();
+          const id = $(this).data('id');
+          console.log('id = ', id);
+          if (id) {
+            self.deleteNote(id);
+          }
+        });
+      });
+    },
     deleteNote(noteId) {
       if (confirm('Are you sure to delete this?')) {
-        // TODO: delete note
+        httpUtils
+          .deletePageAnnotation(noteId)
+          .then(res => {
+            console.log('Page annotation is deleted successfully!');
+            this.refreshTableData();
+          })
+          .catch(err => {
+            console.error(err);
+          });
       }
     },
   },
