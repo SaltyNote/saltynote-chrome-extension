@@ -29,13 +29,13 @@ const getNotes = (tab, actionType, iconClick = false) => {
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     title: 'Annotate in SaltyNote',
-    id: types.WEB_NOTE_RIGHT_CLICK_MENU_ID,
+    id: types.SALTYNOTE_RIGHT_CLICK_MENU_ID,
     contexts: ['selection'],
   });
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-  if (info.menuItemId === types.WEB_NOTE_RIGHT_CLICK_MENU_ID) {
+  if (info.menuItemId === types.SALTYNOTE_RIGHT_CLICK_MENU_ID) {
     console.log('right click triggered');
     chrome.tabs.sendMessage(tab.id, { action: types.RIGHT_CLICK }, response => {
       console.log(response);

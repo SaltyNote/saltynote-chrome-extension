@@ -2,7 +2,7 @@ export const ADD_NOTE = 'ADD_NOTE';
 export const UPDATE_NOTE = 'UPDATE_NOTE';
 export const DELETE_NOTE = 'DELETE_NOTE';
 export const RIGHT_CLICK = 'RIGHT_CLICK';
-export const WEB_NOTE_RIGHT_CLICK_MENU_ID = 'WEB_NOTE_RIGHT_CLICK_MENU_ID';
+export const SALTYNOTE_RIGHT_CLICK_MENU_ID = 'SALTYNOTE_RIGHT_CLICK_MENU_ID';
 export const SHOW_SIDE_BAR = 'SHOW_SIDE_BAR';
 export const SHOW_LOGIN = 'SHOW_LOGIN';
 export const HIGHLIGHT_ALL = 'HIGHLIGHT_ALL';
@@ -11,6 +11,3 @@ export const CMD_OPEN_OPTIONS_PAGE = 'OPEN_OPTIONS_PAGE';
 export const LOGIN = 'LOGIN';
 export const SIGNUP = 'SIGNUP';
 export const LOGOUT = 'LOGOUT';
-
-export const STORE_ACTION_UPDATE = 'ACTION_UPDATE';
-export const STORE_ACTION_CREATION = 'ACTION_CREATION';
