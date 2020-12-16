@@ -2,7 +2,7 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import camelcaseKeys from 'camelcase-keys';
 
-const instance = createInstance('http://pi.hole:8888');
+const instance = createInstance('https://api.saltynote.com');
 
 function createInstance(baseURL) {
   return axios.create({
