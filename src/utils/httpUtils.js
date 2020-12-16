@@ -1,8 +1,9 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import camelcaseKeys from 'camelcase-keys';
+import conf from './conf.json';
 
-const instance = createInstance('https://api.saltynote.com');
+const instance = createInstance(conf.server_endpoint);
 
 function createInstance(baseURL) {
   return axios.create({
