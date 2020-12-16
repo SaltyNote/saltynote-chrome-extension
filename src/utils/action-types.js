@@ -10,6 +10,7 @@ export const CMD_HIGHLIGHT_TOGGLE = 'HIGHLIGHT_TOGGLE';
 export const CMD_OPEN_OPTIONS_PAGE = 'OPEN_OPTIONS_PAGE';
 export const LOGIN = 'LOGIN';
 export const SIGNUP = 'SIGNUP';
+export const LOGOUT = 'LOGOUT';
 
 export const STORE_ACTION_UPDATE = 'ACTION_UPDATE';
 export const STORE_ACTION_CREATION = 'ACTION_CREATION';

@@ -116,6 +116,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       })
       .catch(e => console.error(e));
   }
+  if (request.action === types.LOGOUT) {
+    chrome.storage.local.clear(() => {
+      sendResponse({ done: 'true' });
+    });
+  }
   if (request.action === types.SIGNUP) {
     signup(request.user.username, request.user.email, request.user.password)
       .then(() => {

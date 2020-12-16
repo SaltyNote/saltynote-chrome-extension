@@ -102,10 +102,14 @@
       </template>
       <CustomAnnotationCard v-show="showCustomNoteWindow" @hide:CustomAnnotationCard="showCustomNoteWindow = false" />
     </div>
-
-    <div class="card-footer text-muted text-center">
-      <a href="#" title="Add Notes without Select Context" @click.prevent="showCustomNote"> Add Page Note</a>
-    </div>
+    <template v-if="!(showLogin || showSignup)">
+      <div class="card-footer text-muted text-center">
+        <a href="#" title="Add Notes without Select Context" @click.prevent="showCustomNote"> Add Page Note</a>
+      </div>
+      <div class="card-footer text-muted bg-warning text-center logout">
+        <a href="#" title="Logout" @click.prevent="logout"> Logout</a>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -245,6 +249,14 @@ export default {
     readableTime(ts) {
       return readableTimestamp(ts);
     },
+    logout() {
+      if (confirm('Sure to logout?')) {
+        chrome.runtime.sendMessage({ action: types.LOGOUT }, response => {
+          this.showLogin = true;
+          return true;
+        });
+      }
+    },
   },
 };
 </script>
@@ -319,6 +331,11 @@ div#crx-side-bar.card.text-white {
       cursor: pointer;
       text-decoration: none;
     }
+  }
+
+  .logout a {
+    color: red;
+    font-style: italic;
   }
 }
 
