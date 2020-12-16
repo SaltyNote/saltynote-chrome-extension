@@ -1,6 +1,6 @@
 {
   "name": "saltynote",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "An extension that helps you take comments and notes for any page",
   "author": "Hao Zhou <hzhou@saltynote.com>",
   "engines": {
