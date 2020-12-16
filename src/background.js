@@ -7,19 +7,19 @@ import { defaultColor } from './utils/color';
 
 global.browser = require('webextension-polyfill');
 
-const getNotes = (tab, actionType) => {
+const getNotes = (tab, actionType, iconClick = false) => {
   const url = getSanitizedUrl(tab.url);
   httpUtils
     .fetchAllMyNotesByUrl(url)
     .then(notes => {
-      chrome.tabs.sendMessage(tab.id, { action: actionType, data: notes }, response => {
+      chrome.tabs.sendMessage(tab.id, { action: actionType, iconClick: iconClick, data: notes }, response => {
         console.log(response);
       });
     })
     .catch(() => {
       // Login is required here when action is show side bar.
       if (actionType === types.SHOW_SIDE_BAR) {
-        chrome.tabs.sendMessage(tab.id, { action: actionType, sub_action: types.SHOW_LOGIN, data: [] }, response => {
+        chrome.tabs.sendMessage(tab.id, { action: actionType, sub_action: types.SHOW_LOGIN, iconClick: iconClick, data: [] }, response => {
           console.log(response);
         });
       }
@@ -50,7 +50,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 });
 
 chrome.browserAction.onClicked.addListener(tab => {
-  getNotes(tab, types.SHOW_SIDE_BAR);
+  getNotes(tab, types.SHOW_SIDE_BAR, true);
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -69,10 +69,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       .savePageAnnotation(pageAnnotation)
       .then(res => {
         console.log('save new page annotation successfully!');
-        sendResponse({ done: 'true' });
+        sendResponse({ done: true });
       })
       .catch(err => {
         console.error(err);
+        sendResponse({ done: false, message: err });
       });
   }
 
@@ -88,10 +89,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       .updatePageAnnotation(pageAnnotation)
       .then(res => {
         console.log('Page annotation is updated successfully!');
-        sendResponse({ done: 'true' });
+        sendResponse({ done: true });
       })
       .catch(err => {
         console.error(err);
+        sendResponse({ done: false, message: err });
       });
   }
 
@@ -100,10 +102,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       .deletePageAnnotation(request.id)
       .then(res => {
         console.log('Page annotation is deleted successfully!');
-        sendResponse({ done: 'true' });
+        sendResponse({ done: true });
       })
       .catch(err => {
         console.error(err);
+        sendResponse({ done: false, message: err });
       });
   }
 
@@ -112,13 +115,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       .then(() => {
         console.log('Login succeed');
         getNotes(sender.tab, types.SHOW_SIDE_BAR);
-        sendResponse({ done: 'true' });
+        sendResponse({ done: true });
       })
-      .catch(e => console.error(e));
+      .catch(e => {
+        console.error(e);
+        sendResponse({ done: false, message: e });
+      });
   }
   if (request.action === types.LOGOUT) {
     chrome.storage.local.clear(() => {
-      sendResponse({ done: 'true' });
+      sendResponse({ done: true });
     });
   }
   if (request.action === types.SIGNUP) {
@@ -126,9 +132,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       .then(() => {
         console.log('sign up succeed');
         getNotes(sender.tab, types.SHOW_SIDE_BAR);
-        sendResponse({ done: 'true' });
+        sendResponse({ done: true });
       })
-      .catch(e => console.error(e));
+      .catch(e => {
+        console.error(e);
+        sendResponse({ done: false, message: e });
+      });
   }
   return true;
 });

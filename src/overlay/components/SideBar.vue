@@ -124,6 +124,9 @@ import { highlight } from '../../utils/highlight-mark';
 import { mdRender } from '../../utils/md';
 import { readableTimestamp } from '../../utils/base';
 import SelectedTextBlockquote from './SelectedTextBlockquote';
+import * as BaseUtils from '../../utils/base';
+import * as toastr from 'toastr';
+import 'toastr/build/toastr.min.css';
 
 export default {
   name: 'SideBar',
@@ -143,18 +146,27 @@ export default {
       },
     };
   },
+  created() {
+    toastr.options.progressBar = true;
+  },
   mounted() {
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.action === types.SHOW_SIDE_BAR) {
         if (!this.showSideBar) {
           this.showCustomNoteWindow = false;
         }
-        this.showSideBar = true;
-        this.showLogin = this.showSignup = false; // Reset first.
-        if (request.sub_action === types.SHOW_LOGIN) {
-          this.showLogin = true;
+        if (request.iconClick) {
+          this.showSideBar = !this.showSideBar;
         } else {
-          this.notes = request.data;
+          this.showSideBar = true;
+        }
+        this.showLogin = this.showSignup = false; // Reset first.
+        if (this.showSideBar) {
+          if (request.sub_action === types.SHOW_LOGIN) {
+            this.showLogin = true;
+          } else {
+            this.notes = request.data;
+          }
         }
       }
       sendResponse({ done: true });
@@ -233,16 +245,34 @@ export default {
       return mdRender(val);
     },
     login() {
-      console.log('login: user = ', JSON.stringify(this.user));
+      if (!BaseUtils.isUsernameValid(this.user.username) || !BaseUtils.isPasswordValid(this.user.password)) {
+        toastr.error('Username or password is not valid');
+        return;
+      }
       chrome.runtime.sendMessage({ action: types.LOGIN, user: this.user }, response => {
-        console.log(response);
+        if (!response.done) {
+          toastr.error('Login failed. Username or password may be wrong');
+        }
         return true;
       });
     },
     signup() {
-      console.log('signup: user = ', JSON.stringify(this.user));
+      if (!BaseUtils.isUsernameValid(this.user.username)) {
+        toastr.error('Username should be at least 6 characters with alphanumeric and "-", "_"', 'SaltyNote');
+        return;
+      }
+      if (!BaseUtils.isEmail(this.user.email)) {
+        toastr.error('Email is not valid', 'SaltyNote');
+        return;
+      }
+      if (!BaseUtils.isPasswordValid(this.user.password) || this.user.password !== this.user.passwordCfm) {
+        toastr.error('Password is not valid, it should be at least 6 characters, and be confirmed', 'SaltyNote');
+        return;
+      }
       chrome.runtime.sendMessage({ action: types.SIGNUP, user: this.user }, response => {
-        console.log(response);
+        if (!response.done) {
+          toastr.error('Signup failed. Please try again later');
+        }
         return true;
       });
     },

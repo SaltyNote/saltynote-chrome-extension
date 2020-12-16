@@ -93,7 +93,7 @@ export default {
 </script>
 
 <style lang="scss">
-$zIndex: 99999999;
+$zIndex: 9999;
 .saltynote {
   position: absolute;
   top: 0;
