@@ -7,6 +7,12 @@ import { defaultColor } from './utils/color';
 
 global.browser = require('webextension-polyfill');
 
+const askLogin = (tab, iconClick = false) => {
+  chrome.tabs.sendMessage(tab.id, { action: types.SHOW_SIDE_BAR, sub_action: types.SHOW_LOGIN, iconClick: iconClick, data: [] }, response => {
+    console.log(response);
+  });
+};
+
 const getNotes = (tab, actionType, iconClick = false) => {
   const url = getSanitizedUrl(tab.url);
   httpUtils
@@ -19,9 +25,7 @@ const getNotes = (tab, actionType, iconClick = false) => {
     .catch(() => {
       // Login is required here when action is show side bar.
       if (actionType === types.SHOW_SIDE_BAR) {
-        chrome.tabs.sendMessage(tab.id, { action: actionType, sub_action: types.SHOW_LOGIN, iconClick: iconClick, data: [] }, response => {
-          console.log(response);
-        });
+        askLogin(tab, iconClick);
       }
     });
 };
@@ -37,9 +41,18 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === types.SALTYNOTE_RIGHT_CLICK_MENU_ID) {
     console.log('right click triggered');
-    chrome.tabs.sendMessage(tab.id, { action: types.RIGHT_CLICK }, response => {
-      console.log(response);
-    });
+    httpUtils
+      .isLoggedIn()
+      .then(res => {
+        console.log('SALTYNOTE_RIGHT_CLICK_MENU_ID', JSON.stringify(res));
+        chrome.tabs.sendMessage(tab.id, { action: types.RIGHT_CLICK }, response => {
+          console.log(response);
+        });
+      })
+      .catch(() => {
+        // Ask for login first.
+        askLogin(tab);
+      });
   }
 });
 

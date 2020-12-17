@@ -27,20 +27,36 @@ const checkUserAuthInfo = () => {
         console.error(chrome.runtime.lastError.message);
         reject(chrome.runtime.lastError.message);
       } else {
-        if (result.token && isTokenExpired(result.token.access_token)) {
+        if (!result.token) {
+          reject(new Error('No token found!'));
+          return;
+        }
+        if (isTokenExpired(result.token.access_token)) {
           if (isTokenExpired(result.token.refresh_token)) {
             reject(new Error('Access token is expired, and no refresh token found.'));
             return;
           }
           // Use refresh token to renew access token.
           refreshToken(result.token.refresh_token)
-            .catch(r => resolve(r))
+            .then(r => resolve(r))
             .catch(e => reject(e));
         } else {
           resolve(result.token);
         }
       }
     });
+  });
+};
+
+export const isLoggedIn = () => {
+  return new Promise((resolve, reject) => {
+    checkUserAuthInfo()
+      .then(res => {
+        resolve(res);
+      })
+      .catch(err => {
+        reject(err);
+      });
   });
 };
 
