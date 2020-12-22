@@ -67,7 +67,7 @@ chrome.browserAction.onClicked.addListener(tab => {
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log('request received:', JSON.stringify(request));
+  // console.log('request received:', JSON.stringify(request));
 
   if (request.action === types.ADD_NOTE) {
     const pa = request.pageAnnotation;
