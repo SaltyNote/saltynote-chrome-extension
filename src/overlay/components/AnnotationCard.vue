@@ -1,7 +1,7 @@
 <template>
   <div ref="noteCard" id="crx-comment-card" :style="{ top: top + 'px', left: left + 'px' }" v-show="showAnnotationCard" class="card">
     <div class="text-white card-header bg-primary" @mousedown="dragNoteCard">
-      &nbsp;Salty Note
+      &nbsp;SaltyNote
       <button type="button" class="close" aria-label="Close" @click="closeCard">
         <span aria-hidden="true">&times;</span>
       </button>
