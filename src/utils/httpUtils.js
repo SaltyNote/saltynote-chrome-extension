@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import camelcaseKeys from 'camelcase-keys';
-import conf from './conf.json';
+import conf from '../../env.json';
 
 const instance = createInstance(conf.server_endpoint);
 
@@ -69,7 +69,6 @@ export const login = (username, password) => {
       })
       .then(response => {
         // Token should be returned here.
-        console.log('login response = ', JSON.stringify(response));
         const token = response.data;
         chrome.storage.local.set({ token: token }, function() {
           resolve(token.access_token);
@@ -91,13 +90,12 @@ export const signup = (username, email, password) => {
         password: password,
       })
       .then(response => {
-        console.log(response);
         login(username, password)
           .then(r => resolve(r))
           .catch(e => reject(e));
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
         reject(error);
       });
   });
@@ -118,7 +116,7 @@ export const refreshToken = refreshToken => {
         });
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
         reject(error);
       });
   });
@@ -156,7 +154,7 @@ export const fetchAllMyNotesByUrl = url => {
             resolve(camelcaseKeys(response.data));
           })
           .catch(error => {
-            console.log(error);
+            console.error(error);
             reject(error);
           });
       })
@@ -201,7 +199,7 @@ export const updatePageAnnotation = pageAnnotation => {
             resolve(camelcaseKeys(response.data));
           })
           .catch(error => {
-            console.log(error);
+            console.error(error);
             reject(error);
           });
       })
