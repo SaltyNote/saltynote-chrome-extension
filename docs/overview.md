@@ -3,11 +3,11 @@ see anything wrong.
 
 ### Chrome Extension has 3 parts:
 
-1. [Content Scripts](https://developer.chrome.com/docs/extensions/mv2/content_scripts/)
-2. [Background Scripts](https://developer.chrome.com/docs/extensions/mv2/background_pages/)
-3. [Options Page](https://developer.chrome.com/docs/extensions/mv2/options/)
+1. [Content Scripts](#content-scripts)
+2. [Background Scripts](#background-scripts)
+3. [Options Page](#options-page)
 
-## Content Scripts
+## [Content Scripts](https://developer.chrome.com/docs/extensions/mv2/content_scripts/)
 
 > Content scripts are files that run in the context of web pages.
 
@@ -18,11 +18,17 @@ will send corresponding requests to service, and pass service response to `Conte
 
 ![Content Scripts](./images/content-scripts-section.png)
 
-## Background Scripts
+## [Background Scripts](https://developer.chrome.com/docs/extensions/mv2/background_pages/)
 
 `Background Scripts` are used to handle browser events. In saltynote extension, it will:
 
 1. listen to events created by `Content Scripts`
 2. Interact with saltynote service for data exchange
 
-## Options Page
+## [Options Page](https://developer.chrome.com/docs/extensions/mv2/options/)
+
+`Options Page` works simply as general web page embedded in extension.
+It is used to `allow users to customise the behavior of an extension by providing an options page`,
+but in saltynote extension, we use it as a dashboard, where users can view all theirs page annotations, and manage them.
+
+![Options Page](./images/options-page.png)
