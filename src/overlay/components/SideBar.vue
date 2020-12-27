@@ -9,7 +9,7 @@
     <div class="card-body text-primary overflow-auto">
       <template v-if="showLogin">
         <div class="user-form">
-          <img class="mb-4" src="chrome-extension://baanghljiehhpljdbonfknboakpfajnn/icons/icon.png" alt="" width="72" height="72" />
+          <img class="mb-4" :src="iconUrl" alt="" width="72" height="72" />
           <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
           <label class="sr-only">Username</label>
           <input type="text" class="form-control" placeholder="Username" v-model="user.username" autofocus />
@@ -31,7 +31,7 @@
       </template>
       <template v-else-if="showSignup">
         <div class="user-form">
-          <img class="mb-4" src="chrome-extension://baanghljiehhpljdbonfknboakpfajnn/icons/icon.png" alt="" width="72" height="72" />
+          <img class="mb-4" :src="iconUrl" alt="" width="72" height="72" />
           <h1 class="h3 mb-3 font-weight-normal">Please Signup</h1>
           <label class="sr-only">Username</label>
           <input type="text" class="form-control" placeholder="Username" v-model="user.username" autofocus />
@@ -144,6 +144,7 @@ export default {
         passwordCfm: '',
         email: '',
       },
+      iconUrl: chrome.runtime.getURL('icons/icon.png'),
     };
   },
   created() {
