@@ -4,6 +4,8 @@
 
 `SaltyNote` can be a very useful **Chrome Extension**, with which, you can easily annotate any text in any page with your comments.
 
+[Documentation](./docs)
+
 ## Get Started
 
 1. Make a copy of [`env.example.json`](./env.example.json), and rename it to `env.json`.
