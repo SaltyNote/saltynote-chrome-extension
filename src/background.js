@@ -82,6 +82,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       .savePageAnnotation(pageAnnotation)
       .then(res => {
         console.log('save new page annotation successfully!');
+        getNotes(sender.tab, types.SHOW_SIDE_BAR);
         sendResponse({ done: true });
       })
       .catch(err => {

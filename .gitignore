@@ -6,3 +6,4 @@ package-lock.json
 .idea
 .DS_store
 env.json
+src/icons

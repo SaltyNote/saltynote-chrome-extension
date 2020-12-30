@@ -9,8 +9,9 @@
 ## Get Started
 
 1. Make a copy of [`env.example.json`](./env.example.json), and rename it to `env.json`.
-2. Run `npm run build:dev`, then a `dist` folder will be generated.
-3. Go to [chrome://extensions/](chrome://extensions/) page in Chrome, enable `developer mode`, and load the extension from [`dist`](./dist) folder.
+1. Make a copy of [`src/icons-example`](./src/icons-example), and rename it to `src/icons`.
+1. Run `npm run build:dev`, then a `dist` folder will be generated.
+1. Go to [chrome://extensions/](chrome://extensions/) page in Chrome, enable `developer mode`, and load the extension from [`dist`](./dist) folder.
    ![](./docs/images/chrome.png)
 
 ## License

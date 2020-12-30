@@ -1,6 +1,6 @@
 {
   "name": "SaltyNote",
-  "description": "An extension that helps you take comments and notes for any page",
+  "description": "An extension that helps you make annotations for any web page",
   "version": "0.1.0",
   "manifest_version": 2,
   "icons": {
@@ -38,13 +38,6 @@
         "mac": "Command+Shift+O"
       },
       "description": "Open Options Page"
-    },
-    "OPEN_NOTES_PAGE": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+N",
-        "mac": "Command+Shift+N"
-      },
-      "description": "Open Notes Page"
     }
   },
   "web_accessible_resources": ["icons/dog.jpg", "icons/icon.png"]
