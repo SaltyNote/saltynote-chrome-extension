@@ -2,20 +2,33 @@
   <div class="user-form">
     <img class="mb-4 logo" :src="iconUrl" alt="" width="72" height="72" />
     <h1 class="h3 mb-3 font-weight-normal">Please Signup</h1>
-    <label class="sr-only">Username</label>
-    <input type="text" class="form-control" placeholder="Username" v-model="user.username" autofocus />
-    <label class="sr-only">Email</label>
-    <input type="email" class="form-control" placeholder="Your Email" v-model="user.email" />
-    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" />
-    <div class="input-group mb-3">
+
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Username" v-model="user.username" autofocus />
+    </div>
+    <div class="form-group">
+      <input type="email" class="form-control" v-model="user.email" placeholder="Your Email" aria-describedby="emailHelp" />
+      <small id="emailHelp" class="form-text text-muted text-left">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" id="exampleInputPassword1" />
+    </div>
+
+    <div class="input-group">
+      <input type="text" class="form-control" v-model="user.token" placeholder="Verification Code" />
       <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+        <button class="btn btn-outline-primary" type="button">Send Code</button>
       </div>
     </div>
-    <label class="sr-only">Password</label>
-    <input type="password" class="form-control" placeholder="Password" v-model="user.password" />
-    <label class="sr-only">Password Confirmation</label>
-    <input type="password" class="form-control" placeholder="Password Confirmation" v-model="user.passwordCfm" />
+
+    <div class="form-group">
+      <input type="password" class="form-control" placeholder="Password" v-model="user.password" />
+    </div>
+
+    <div class="form-group">
+      <input type="password" class="form-control" placeholder="Password Confirmation" v-model="user.passwordCfm" />
+    </div>
+
     <button class="btn btn-lg btn-primary btn-block" @click="signup">Signup</button>
     <p>
       Have An Account ?
@@ -28,6 +41,7 @@
 import * as BaseUtils from '../../utils/base';
 import toastr from 'toastr';
 import * as types from '../../utils/action-types';
+import 'toastr/build/toastr.min.css';
 
 export default {
   name: 'Signup',
@@ -42,6 +56,9 @@ export default {
       },
       iconUrl: chrome.runtime.getURL('icons/icon.png'),
     };
+  },
+  created() {
+    toastr.options.progressBar = true;
   },
   methods: {
     showLogin() {
@@ -97,19 +114,6 @@ export default {
 
   p {
     color: #454343;
-  }
-
-  .form-control:focus {
-    z-index: 2;
-  }
-
-  input {
-    margin-bottom: -1px;
-    border-radius: 0;
-  }
-
-  button {
-    margin-top: 11px;
   }
 
   .link-mouse {
