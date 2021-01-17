@@ -30,30 +30,12 @@
         </div>
       </template>
       <template v-else-if="showSignup">
-        <div class="user-form">
-          <img class="mb-4 logo" :src="iconUrl" alt="" width="72" height="72" />
-          <h1 class="h3 mb-3 font-weight-normal">Please Signup</h1>
-          <label class="sr-only">Username</label>
-          <input type="text" class="form-control" placeholder="Username" v-model="user.username" autofocus />
-          <label class="sr-only">Email</label>
-          <input type="email" class="form-control" placeholder="Your Email" v-model="user.email" />
-          <label class="sr-only">Password</label>
-          <input type="password" class="form-control" placeholder="Password" v-model="user.password" />
-          <label class="sr-only">Password Confirmation</label>
-          <input type="password" class="form-control" placeholder="Password Confirmation" v-model="user.passwordCfm" />
-          <button class="btn btn-lg btn-primary btn-block" @click="signup">Signup</button>
-          <p>
-            Have An Account ?
-            <a
-              class="link-mouse"
-              @click="
-                showLogin = true;
-                showSignup = false;
-              "
-              >Login</a
-            >!
-          </p>
-        </div>
+        <Signup
+          @show:login="
+            showLogin = true;
+            showSignup = false;
+          "
+        />
       </template>
       <template v-else-if="notes.length > 0">
         <div class="list-group">
@@ -127,10 +109,11 @@ import SelectedTextBlockquote from './SelectedTextBlockquote';
 import * as BaseUtils from '../../utils/base';
 import * as toastr from 'toastr';
 import 'toastr/build/toastr.min.css';
+import Signup from './Signup';
 
 export default {
   name: 'SideBar',
-  components: { SelectedTextBlockquote, NoAnnotationPlaceholder, CustomAnnotationCard, ColorSelect },
+  components: { Signup, SelectedTextBlockquote, NoAnnotationPlaceholder, CustomAnnotationCard, ColorSelect },
   data() {
     return {
       notes: [],
@@ -141,7 +124,6 @@ export default {
       user: {
         username: '',
         password: '',
-        passwordCfm: '',
         email: '',
       },
       iconUrl: chrome.runtime.getURL('icons/icon.png'),
@@ -253,26 +235,6 @@ export default {
       chrome.runtime.sendMessage({ action: types.LOGIN, user: this.user }, response => {
         if (!response.done) {
           toastr.error('Login failed. Username or password may be wrong');
-        }
-        return true;
-      });
-    },
-    signup() {
-      if (!BaseUtils.isUsernameValid(this.user.username)) {
-        toastr.error('Username should be at least 6 characters with alphanumeric and "-", "_"', 'SaltyNote');
-        return;
-      }
-      if (!BaseUtils.isEmail(this.user.email)) {
-        toastr.error('Email is not valid', 'SaltyNote');
-        return;
-      }
-      if (!BaseUtils.isPasswordValid(this.user.password) || this.user.password !== this.user.passwordCfm) {
-        toastr.error('Password is not valid, it should be at least 6 characters, and be confirmed', 'SaltyNote');
-        return;
-      }
-      chrome.runtime.sendMessage({ action: types.SIGNUP, user: this.user }, response => {
-        if (!response.done) {
-          toastr.error('Signup failed. Please try again later');
         }
         return true;
       });
