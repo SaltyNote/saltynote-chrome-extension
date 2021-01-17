@@ -8,26 +8,12 @@
     </div>
     <div class="card-body text-primary overflow-auto">
       <template v-if="showLogin">
-        <div class="user-form">
-          <img class="mb-4 logo" :src="iconUrl" alt="" width="72" height="72" />
-          <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
-          <label class="sr-only">Username</label>
-          <input type="text" class="form-control" placeholder="Username" v-model="user.username" autofocus />
-          <label class="sr-only">Password</label>
-          <input type="password" class="form-control" placeholder="Password" v-model="user.password" />
-          <button class="btn btn-lg btn-primary btn-block" @click="login">Login</button>
-          <p>
-            Don't have an account?
-            <a
-              class="link-mouse"
-              @click="
-                showLogin = false;
-                showSignup = true;
-              "
-              >Sign Up</a
-            >
-          </p>
-        </div>
+        <Login
+          @show:signup="
+            showLogin = false;
+            showSignup = true;
+          "
+        />
       </template>
       <template v-else-if="showSignup">
         <Signup
@@ -106,14 +92,12 @@ import { highlight } from '../../utils/highlight-mark';
 import { mdRender } from '../../utils/md';
 import { readableTimestamp } from '../../utils/base';
 import SelectedTextBlockquote from './SelectedTextBlockquote';
-import * as BaseUtils from '../../utils/base';
-import * as toastr from 'toastr';
-import 'toastr/build/toastr.min.css';
 import Signup from './Signup';
+import Login from './Login';
 
 export default {
   name: 'SideBar',
-  components: { Signup, SelectedTextBlockquote, NoAnnotationPlaceholder, CustomAnnotationCard, ColorSelect },
+  components: { Login, Signup, SelectedTextBlockquote, NoAnnotationPlaceholder, CustomAnnotationCard, ColorSelect },
   data() {
     return {
       notes: [],
@@ -121,17 +105,9 @@ export default {
       showCustomNoteWindow: false,
       showLogin: false,
       showSignup: false,
-      user: {
-        username: '',
-        password: '',
-        email: '',
-      },
-      iconUrl: chrome.runtime.getURL('icons/icon.png'),
     };
   },
-  created() {
-    toastr.options.progressBar = true;
-  },
+
   mounted() {
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.action === types.SHOW_SIDE_BAR) {
@@ -227,18 +203,6 @@ export default {
     markdown(val) {
       return mdRender(val);
     },
-    login() {
-      if (!BaseUtils.isUsernameValid(this.user.username) || !BaseUtils.isPasswordValid(this.user.password)) {
-        toastr.error('Username or password is not valid');
-        return;
-      }
-      chrome.runtime.sendMessage({ action: types.LOGIN, user: this.user }, response => {
-        if (!response.done) {
-          toastr.error('Login failed. Username or password may be wrong');
-        }
-        return true;
-      });
-    },
     readableTime(ts) {
       return readableTimestamp(ts);
     },
@@ -281,52 +245,6 @@ div#crx-side-bar.card.text-white {
 
     .del-btn {
       color: red;
-    }
-  }
-
-  .user-form {
-    width: 100%;
-    max-width: 330px;
-    padding: 15px;
-    margin: auto;
-    text-align: center;
-
-    img.logo {
-      margin: auto;
-    }
-
-    .checkbox {
-      font-weight: 400;
-    }
-
-    .form-control {
-      position: relative;
-      box-sizing: border-box;
-      height: auto;
-      padding: 10px;
-      font-size: 16px;
-    }
-
-    p {
-      color: #454343;
-    }
-
-    .form-control:focus {
-      z-index: 2;
-    }
-
-    input {
-      margin-bottom: -1px;
-      border-radius: 0;
-    }
-
-    button {
-      margin-top: 11px;
-    }
-
-    .link-mouse {
-      cursor: pointer;
-      text-decoration: none;
     }
   }
 
