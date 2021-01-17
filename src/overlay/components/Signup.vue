@@ -10,14 +10,11 @@
       <input type="email" class="form-control" v-model="user.email" placeholder="Your Email" aria-describedby="emailHelp" />
       <small id="emailHelp" class="form-text text-muted text-left">We'll never share your email with anyone else.</small>
     </div>
-    <div class="form-group">
-      <input type="password" class="form-control" id="exampleInputPassword1" />
-    </div>
 
     <div class="input-group">
       <input type="text" class="form-control" v-model="user.token" placeholder="Verification Code" />
       <div class="input-group-append">
-        <button class="btn btn-outline-primary" type="button">Send Code</button>
+        <button class="btn btn-outline-primary" type="button" @click="sendCode">Send Code</button>
       </div>
     </div>
 
@@ -63,6 +60,22 @@ export default {
   methods: {
     showLogin() {
       this.$emit('show:login');
+    },
+    sendCode() {
+      if (!BaseUtils.isEmail(this.user.email)) {
+        toastr.error('Email is not valid', 'SaltyNote');
+      }
+
+      toastr.info('Processing, please wait...');
+
+      chrome.runtime.sendMessage({ action: types.VERIFY_EMAIL, email: this.user.email }, response => {
+        if (!response.done) {
+          toastr.error('Sending code failed. Please try again later');
+        } else {
+          toastr.success('Verification code is sent to your email.');
+        }
+        return true;
+      });
     },
     signup() {
       if (!BaseUtils.isUsernameValid(this.user.username)) {
