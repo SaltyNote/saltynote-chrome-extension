@@ -11,3 +11,4 @@ export const CMD_OPEN_OPTIONS_PAGE = 'OPEN_OPTIONS_PAGE';
 export const LOGIN = 'LOGIN';
 export const SIGNUP = 'SIGNUP';
 export const LOGOUT = 'LOGOUT';
+export const VERIFY_EMAIL = 'VERIFY_EMAIL';

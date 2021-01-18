@@ -81,13 +81,30 @@ export const login = (username, password) => {
   });
 };
 
-export const signup = (username, email, password) => {
+export const emailVerify = email => {
+  return new Promise((resolve, reject) => {
+    instance
+      .post('/email/verification', {
+        email: email,
+      })
+      .then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        console.error(error);
+        reject(error);
+      });
+  });
+};
+
+export const signup = (username, email, password, token) => {
   return new Promise((resolve, reject) => {
     instance
       .post('/signup', {
         username: username,
         email: email,
         password: password,
+        token: token,
       })
       .then(response => {
         login(username, password)

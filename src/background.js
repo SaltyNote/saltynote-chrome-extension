@@ -1,6 +1,6 @@
 import * as types from './utils/action-types';
 import * as httpUtils from './utils/httpUtils';
-import { login, signup } from './utils/httpUtils';
+import { login, signup, emailVerify } from './utils/httpUtils';
 import { getSanitizedUrl } from './utils/urls';
 import { removeScriptTags } from './utils/base';
 import { defaultColor } from './utils/color';
@@ -136,13 +136,26 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse({ done: false, message: e });
       });
   }
+
   if (request.action === types.LOGOUT) {
     chrome.storage.local.clear(() => {
       sendResponse({ done: true });
     });
   }
+
+  if (request.action === types.VERIFY_EMAIL) {
+    emailVerify(request.email)
+      .then(() => {
+        sendResponse({ done: true });
+      })
+      .catch(e => {
+        console.error(e);
+        sendResponse({ done: false, message: e });
+      });
+  }
+
   if (request.action === types.SIGNUP) {
-    signup(request.user.username, request.user.email, request.user.password)
+    signup(request.user.username, request.user.email, request.user.password, request.user.token)
       .then(() => {
         console.log('sign up succeed');
         getNotes(sender.tab, types.SHOW_SIDE_BAR);
