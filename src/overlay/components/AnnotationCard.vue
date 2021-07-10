@@ -153,7 +153,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$zIndex: 9999;
+$zIndex: 99999;
 
 #crx-comment-card {
   position: absolute;
