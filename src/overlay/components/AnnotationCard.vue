@@ -7,7 +7,7 @@
       </button>
     </div>
     <div class="card-body">
-      <form>
+      <form id="saltynote-form">
         <div class="form-group">
           <SelectedTextBlockquote :text="selectText" :class="highlightClass" />
           <ColorSelect :color="highlightColor" @update:color="changeHighlightColor"></ColorSelect>
@@ -159,6 +159,9 @@ $zIndex: 99999;
   position: absolute;
   z-index: $zIndex;
 
+  #saltynote-form {
+    display: block !important;
+  }
   .card-header {
     padding: 5px;
     color: white;
