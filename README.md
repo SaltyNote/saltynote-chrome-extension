@@ -4,7 +4,10 @@
 
 `SaltyNote` can be a very useful **Chrome Extension**, with which, you can easily annotate any text in any page with your comments.
 
-[Documentation](./docs)
+> [Website](https://saltynote.com/)
+> 
+> [Documentation](./docs)
+
 
 ## Get Started
 
