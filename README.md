@@ -6,6 +6,8 @@
 
 > [Website](https://saltynote.com/)
 > 
+> [Chrome Web Store](https://chrome.google.com/webstore/detail/saltynote/baanghljiehhpljdbonfknboakpfajnn)
+> 
 > [Documentation](./docs)
 
 
