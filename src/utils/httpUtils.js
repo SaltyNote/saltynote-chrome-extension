@@ -1,16 +1,25 @@
-import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import camelcaseKeys from 'camelcase-keys';
 import conf from '../../env.json';
 
-const instance = createInstance(conf.server_endpoint);
+function getUrl(url) {
+  return `${conf.server_endpoint}${url}`;
+}
 
-function createInstance(baseURL) {
-  return axios.create({
-    baseURL,
+function get(url, headers = {}) {
+  return fetch(getUrl(url), {
+    headers: headers,
+  });
+}
+
+function post(url, data, headers = {}) {
+  return fetch(getUrl(url), {
+    method: 'POST',
     headers: {
+      ...headers,
       'Content-Type': 'application/json',
     },
+    body: JSON.stringify(data),
   });
 }
 
@@ -62,14 +71,13 @@ export const isLoggedIn = () => {
 
 export const login = (username, password) => {
   return new Promise((resolve, reject) => {
-    instance
-      .post('/login', {
-        username: username,
-        password: password,
-      })
-      .then(response => {
+    post('/login', {
+      username: username,
+      password: password,
+    })
+      .then(response => response.json())
+      .then(token => {
         // Token should be returned here.
-        const token = response.data;
         chrome.storage.local.set({ token: token }, function() {
           resolve(token.access_token);
         });
@@ -83,12 +91,12 @@ export const login = (username, password) => {
 
 export const emailVerify = email => {
   return new Promise((resolve, reject) => {
-    instance
-      .post('/email/verification', {
-        email: email,
-      })
-      .then(response => {
-        resolve(response);
+    post('/email/verification', {
+      email: email,
+    })
+      .then(response => response.json())
+      .then(data => {
+        resolve(data);
       })
       .catch(error => {
         console.error(error);
@@ -99,14 +107,14 @@ export const emailVerify = email => {
 
 export const signup = (username, email, password, token) => {
   return new Promise((resolve, reject) => {
-    instance
-      .post('/signup', {
-        username: username,
-        email: email,
-        password: password,
-        token: token,
-      })
-      .then(response => {
+    post('/signup', {
+      username: username,
+      email: email,
+      password: password,
+      token: token,
+    })
+      .then(response => response.json())
+      .then(data => {
         login(username, password)
           .then(r => resolve(r))
           .catch(e => reject(e));
@@ -120,13 +128,12 @@ export const signup = (username, email, password, token) => {
 
 export const refreshToken = refreshToken => {
   return new Promise((resolve, reject) => {
-    instance
-      .post('/refresh_token', {
-        refresh_token: refreshToken,
-      })
-      .then(response => {
+    post('/refresh_token', {
+      refresh_token: refreshToken,
+    })
+      .then(response => response.json())
+      .then(token => {
         // Token should be returned here.
-        const token = response.data;
         token.refresh_token = refreshToken;
         chrome.storage.local.set({ token: token }, function() {
           resolve(token.access_token);
@@ -144,10 +151,10 @@ export const fetchAllMyNotes = () => {
     checkUserAuthInfo()
       .then(res => {
         const authStr = 'Bearer '.concat(res.access_token);
-        instance
-          .get('/notes', { headers: { Authorization: authStr } })
-          .then(response => {
-            resolve(camelcaseKeys(response.data));
+        get('/notes', { Authorization: authStr })
+          .then(response => response.json())
+          .then(data => {
+            resolve(camelcaseKeys(data));
           })
           .catch(error => {
             console.log(error);
@@ -165,10 +172,10 @@ export const fetchAllMyNotesByUrl = url => {
     checkUserAuthInfo()
       .then(res => {
         const authStr = 'Bearer '.concat(res.access_token);
-        instance
-          .post('/notes', { url: url }, { headers: { Authorization: authStr } })
-          .then(response => {
-            resolve(camelcaseKeys(response.data));
+        post('/notes', { url: url }, { Authorization: authStr })
+          .then(response => response.json())
+          .then(data => {
+            resolve(camelcaseKeys(data));
           })
           .catch(error => {
             console.error(error);
@@ -186,10 +193,10 @@ export const savePageAnnotation = pageAnnotation => {
     checkUserAuthInfo()
       .then(res => {
         const authStr = 'Bearer '.concat(res.access_token);
-        instance
-          .post('/note', pageAnnotation, { headers: { Authorization: authStr } })
-          .then(response => {
-            resolve(camelcaseKeys(response.data));
+        post('/note', pageAnnotation, { Authorization: authStr })
+          .then(response => response.json())
+          .then(data => {
+            resolve(camelcaseKeys(data));
           })
           .catch(error => {
             console.log(error);
@@ -210,10 +217,10 @@ export const updatePageAnnotation = pageAnnotation => {
     checkUserAuthInfo()
       .then(res => {
         const authStr = 'Bearer '.concat(res.access_token);
-        instance
-          .post('/note/' + pageAnnotation.id, pageAnnotation, { headers: { Authorization: authStr } })
-          .then(response => {
-            resolve(camelcaseKeys(response.data));
+        post('/note/' + pageAnnotation.id, pageAnnotation, { Authorization: authStr })
+          .then(response => response.json())
+          .then(data => {
+            resolve(camelcaseKeys(data));
           })
           .catch(error => {
             console.error(error);
@@ -234,9 +241,9 @@ export const deletePageAnnotation = pageAnnotationId => {
     checkUserAuthInfo()
       .then(res => {
         const authStr = 'Bearer '.concat(res.access_token);
-        instance
-          .post('/note/' + pageAnnotationId + '/delete', {}, { headers: { Authorization: authStr } })
-          .then(response => {
+        post('/note/' + pageAnnotationId + '/delete', {}, { Authorization: authStr })
+          .then(response => response.json())
+          .then(data => {
             resolve();
           })
           .catch(error => {
