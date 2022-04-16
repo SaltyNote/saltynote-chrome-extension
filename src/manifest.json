@@ -2,18 +2,17 @@
   "name": "SaltyNote",
   "description": "An extension that helps you make annotations for any web page",
   "version": "0.1.0",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "icons": {
     "48": "icons/icon.png",
     "128": "icons/icon.png",
     "144": "icons/icon.png"
   },
-  "browser_action": {
+  "action": {
     "default_title": "SaltyNote"
   },
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   },
   "options_page": "options/options.html",
   "permissions": ["activeTab", "contextMenus", "tabs", "storage"],
@@ -40,5 +39,14 @@
       "description": "Open Options Page"
     }
   },
-  "web_accessible_resources": ["icons/dog.jpg", "icons/icon.png"]
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/dog.jpg", "icons/icon.png"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'",
+    "sandbox": "sandbox allow-scripts; script-src 'self' 'https://*.saltynote.com'; object-src 'self'"
+  }
 }

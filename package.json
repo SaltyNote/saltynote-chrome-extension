@@ -13,9 +13,7 @@
     "prettier:write": "npm run prettier -- --write",
     "build": "npm run build:scss && cross-env NODE_ENV=production webpack --hide-modules",
     "package": "npm run build:scss && cross-env NODE_ENV=production RELEASE=true webpack --hide-modules",
-    "build:dev": "npm run build:scss && cross-env NODE_ENV=development webpack --hide-modules",
-    "build-zip": "npm run package && node scripts/build-zip.js",
-    "watch:dev": "cross-env HMR=true npm run build:dev -- --watch"
+    "build-zip": "npm run package && node scripts/build-zip.js"
   },
   "husky": {
     "hooks": {
