@@ -5,8 +5,6 @@ import { getSanitizedUrl } from './utils/urls';
 import { removeScriptTags } from './utils/base';
 import { defaultColor } from './utils/color';
 
-global.browser = require('webextension-polyfill');
-
 const askLogin = (tab, iconClick = false) => {
   chrome.tabs.sendMessage(tab.id, { action: types.SHOW_SIDE_BAR, sub_action: types.SHOW_LOGIN, iconClick: iconClick, data: [] }, response => {
     console.log(response);
@@ -23,7 +21,7 @@ const getNotes = (tab, actionType, iconClick = false) => {
       });
     })
     .catch(() => {
-      // Login is required here when action is show side bar.
+      // Login is required here when action is show sidebar.
       if (actionType === types.SHOW_SIDE_BAR) {
         askLogin(tab, iconClick);
       }
@@ -62,7 +60,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   }
 });
 
-chrome.browserAction.onClicked.addListener(tab => {
+chrome.action.onClicked.addListener(tab => {
   getNotes(tab, types.SHOW_SIDE_BAR, true);
 });
 

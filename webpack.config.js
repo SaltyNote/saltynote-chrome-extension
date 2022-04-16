@@ -92,12 +92,6 @@ const config = {
         transform: content => {
           const jsonContent = JSON.parse(content);
           jsonContent.version = version;
-
-          if (config.mode === 'development') {
-            jsonContent.content_security_policy = "script-src 'self' 'unsafe-eval'; object-src 'self'";
-          } else if (config.mode === 'production') {
-            jsonContent.content_security_policy = "script-src 'self' https://*.saltynote.com; object-src 'self'";
-          }
           if (process.env.RELEASE !== 'true' && proEnv.manifest_key) {
             jsonContent.key = proEnv.manifest_key;
           }
