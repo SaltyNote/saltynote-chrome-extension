@@ -146,12 +146,12 @@ export const refreshToken = refreshToken => {
   });
 };
 
-export const fetchAllMyNotes = () => {
+export const fetchAllMyNotes = keyword => {
   return new Promise((resolve, reject) => {
     checkUserAuthInfo()
       .then(res => {
         const authStr = 'Bearer '.concat(res.access_token);
-        get('/notes', { Authorization: authStr })
+        get('/notes' + (keyword ? '?keyword=' + keyword : ''), { headers: { Authorization: authStr } })
           .then(response => response.json())
           .then(data => {
             resolve(camelcaseKeys(data));

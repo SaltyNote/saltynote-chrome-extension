@@ -175,6 +175,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         sendResponse({ done: false, message: e });
       });
   }
+
+  if (request.action === types.SEARCH) {
+    httpUtils
+      .fetchAllMyNotes(request.keyword)
+      .then(notes => {
+        sendResponse(notes);
+      })
+      .catch(e => {
+        console.error(e);
+        sendResponse({ done: false, message: e });
+      });
+  }
+
   return true;
 });
 
