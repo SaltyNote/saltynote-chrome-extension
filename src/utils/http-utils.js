@@ -151,7 +151,7 @@ export const fetchAllMyNotes = keyword => {
     checkUserAuthInfo()
       .then(res => {
         const authStr = 'Bearer '.concat(res.access_token);
-        get('/notes' + (keyword ? '?keyword=' + keyword : ''), { headers: { Authorization: authStr } })
+        get('/notes' + (keyword ? '?keyword=' + keyword : ''), { Authorization: authStr })
           .then(response => response.json())
           .then(data => {
             resolve(camelcaseKeys(data));
