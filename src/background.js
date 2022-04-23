@@ -1,6 +1,6 @@
 import * as types from './utils/action-types';
-import * as httpUtils from './utils/httpUtils';
-import { login, signup, emailVerify } from './utils/httpUtils';
+import * as httpUtils from './utils/http-utils';
+import { login, signup, emailVerify } from './utils/http-utils';
 import { getSanitizedUrl } from './utils/urls';
 import { removeScriptTags } from './utils/base';
 import { defaultColor } from './utils/color';
