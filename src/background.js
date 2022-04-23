@@ -34,6 +34,12 @@ chrome.runtime.onInstalled.addListener(() => {
     id: types.SALTYNOTE_RIGHT_CLICK_MENU_ID,
     contexts: ['selection'],
   });
+
+  chrome.contextMenus.create({
+    title: 'Toggle Global Search',
+    id: types.TOGGLE_GLOBAL_SEARCH,
+    contexts: ['all'],
+  });
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
@@ -42,7 +48,6 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     httpUtils
       .isLoggedIn()
       .then(res => {
-        console.log('SALTYNOTE_RIGHT_CLICK_MENU_ID', JSON.stringify(res));
         chrome.tabs.sendMessage(tab.id, { action: types.RIGHT_CLICK }, response => {
           console.log(response);
         });
@@ -51,6 +56,12 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
         // Ask for login first.
         askLogin(tab);
       });
+  } else if (info.menuItemId === types.TOGGLE_GLOBAL_SEARCH) {
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      chrome.tabs.sendMessage(tabs[0].id, { action: types.CMD_GLOBAL_SEARCH }, response => {
+        console.log(response);
+      });
+    });
   }
 });
 
@@ -177,5 +188,11 @@ chrome.commands.onCommand.addListener(command => {
     });
   } else if (command === types.CMD_OPEN_OPTIONS_PAGE) {
     chrome.runtime.openOptionsPage(() => console.log('Options page is opened'));
+  } else if (command === types.CMD_GLOBAL_SEARCH) {
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+      chrome.tabs.sendMessage(tabs[0].id, { action: types.CMD_GLOBAL_SEARCH }, response => {
+        console.log(response);
+      });
+    });
   }
 });

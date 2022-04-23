@@ -15,6 +15,7 @@
     </template>
     <!-- Side Bar Component-->
     <SideBar @hide:sidebar="closeSideBar" />
+    <Search v-if="showSearch" />
   </div>
 </template>
 
@@ -24,15 +25,18 @@ import { highlightAll, unmark } from '../utils/highlight-mark';
 import { mdRender } from '../utils/md';
 import AnnotationCard from './components/AnnotationCard';
 import SideBar from './components/SideBar';
+import Search from './components/Search';
+import { EventBus } from '../utils/event-bus';
 
 export default {
   name: 'App',
-  components: { SideBar, AnnotationCard },
+  components: { Search, SideBar, AnnotationCard },
   data() {
     return {
       showSideBar: false,
       notes: [],
       showCustomNoteWindow: false,
+      showSearch: false,
       errorMsg: '',
       highlight: {
         doneForPageLoad: false,
@@ -62,9 +66,16 @@ export default {
           highlightAll(this.notes);
         }
         this.highlight.cmdToggle = !this.highlight.cmdToggle;
+      } else if (request.action === types.CMD_GLOBAL_SEARCH) {
+        this.showSearch = !this.showSearch;
       }
       sendResponse({ done: true });
       return true;
+    });
+  },
+  created() {
+    EventBus.$on(types.CLOSE_SEARCH, () => {
+      this.showSearch = false;
     });
   },
   methods: {
