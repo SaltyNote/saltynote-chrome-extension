@@ -1,6 +1,6 @@
 {
   "name": "saltynote",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "An extension that helps you make annotations for any web page",
   "author": "SaltyNote <dev@saltynote.com>",
   "engines": {
