@@ -1,6 +1,6 @@
 <template>
   <div class="user-form">
-    <img class="mb-4 logo" :src="iconUrl" alt="" width="72" height="72" />
+    <img class="mb-4 saltynote-logo" :src="iconUrl" alt="" width="72" height="72" />
     <h1 class="h3 mb-3 font-weight-normal">Please Signup</h1>
 
     <div class="form-group">
@@ -113,7 +113,7 @@ export default {
   margin: auto;
   text-align: center;
 
-  img.logo {
+  img.saltynote-logo {
     margin: auto;
   }
 
