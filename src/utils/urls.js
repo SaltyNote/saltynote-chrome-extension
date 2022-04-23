@@ -75,3 +75,11 @@ export function getSanitizedUrl(url) {
 export function getUrlHostname(url) {
   return new URL(url).hostname;
 }
+
+export function getUrlOrigin(url) {
+  return new URL(url).origin;
+}
+
+export function getUrlHost(url) {
+  return new URL(url).host;
+}

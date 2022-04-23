@@ -35,7 +35,7 @@ import 'datatables.net-buttons/js/buttons.html5.min';
 import 'datatables.net-buttons/js/buttons.print.min';
 import { mdRender } from '../utils/md';
 import 'highlight.js/styles/github.css';
-import * as httpUtils from '../utils/httpUtils';
+import * as httpUtils from '../utils/http-utils';
 
 export default {
   name: 'App',

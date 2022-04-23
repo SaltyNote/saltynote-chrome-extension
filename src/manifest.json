@@ -37,6 +37,13 @@
         "mac": "Command+Shift+O"
       },
       "description": "Open Options Page"
+    },
+    "GLOBAL_SEARCH": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "Command+Shift+L"
+      },
+      "description": "Global Search"
     }
   },
   "web_accessible_resources": [

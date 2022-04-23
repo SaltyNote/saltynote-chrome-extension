@@ -3,7 +3,7 @@
     <div class="card-header bg-primary text-center border-primary">
       SaltyNote
       <button type="button" class="close" aria-label="Close" @click="closeSideBar">
-        <span aria-hidden="true">&times;</span>
+        <span>&times;</span>
       </button>
     </div>
     <div class="card-body text-primary overflow-auto">

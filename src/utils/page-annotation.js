@@ -57,3 +57,15 @@ export const deletePageAnnotation = pageAnnotationId => {
     });
   });
 };
+
+export const searchPageAnnotations = keyword => {
+  return new Promise(function(resolve, reject) {
+    if (baseUtils.isBlank(keyword)) {
+      reject(new Error('Keyword should not be empty!'));
+      return;
+    }
+    chrome.runtime.sendMessage({ keyword: keyword, action: types.SEARCH }, response => {
+      resolve(response);
+    });
+  });
+};
