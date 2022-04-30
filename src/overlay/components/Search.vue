@@ -95,13 +95,14 @@ export default {
   padding-top: 2rem;
 }
 
-.jumbotron {
+.container .jumbotron {
   max-height: 95vh;
   overflow-y: scroll;
+  padding-top: 2rem;
   .search-close {
-    position: absolute;
-    top: 3rem;
-    right: 4rem;
+    position: relative;
+    top: 0;
+    right: 0;
   }
 }
 
