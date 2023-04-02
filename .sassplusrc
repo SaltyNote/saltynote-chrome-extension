@@ -1,0 +1,6 @@
+{
+  "lint": false,
+  "prefix": true,
+  "clean": false,
+  "minify": true
+}
