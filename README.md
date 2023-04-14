@@ -1,5 +1,6 @@
 # SaltyNote <small>Chrome Extension</small>
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/05606429b6434f8793bc007c29385c6c)](https://app.codacy.com/gh/SaltyNote/saltynote-chrome-extension?utm_source=github.com&utm_medium=referral&utm_content=SaltyNote/saltynote-chrome-extension&utm_campaign=Badge_Grade)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSaltyNote%2Fsaltynote-chrome-extension.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSaltyNote%2Fsaltynote-chrome-extension?ref=badge_shield)
 
 `SaltyNote` can be a very useful **Chrome Extension**, with which, you can easily annotate any text in any page with your comments.
