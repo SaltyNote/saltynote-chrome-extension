@@ -51,7 +51,6 @@ export default {
         // do not trigger highlight all after adding new note
         // only trigger it when page refresh
         if (this.highlight.doneForPageLoad) return;
-        console.log(types.HIGHLIGHT_ALL);
         this.notes = request.data;
         this.notes.forEach(note => (note.clickCallback = this.highlightClick));
         highlightAll(this.notes);
@@ -102,7 +101,8 @@ export default {
 </script>
 
 <style lang="scss">
-$zIndex: 9999;
+// https://stackoverflow.com/a/63592166/4114408
+$zIndex: 999999999999;
 .saltynote {
   position: absolute;
   top: 0;
