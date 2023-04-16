@@ -37,7 +37,7 @@
                 <ColorSelect v-if="!note.isPageOnly" :color="getNoteHighlightColor(note)" @update:color="note.newHighlightColor = $event"></ColorSelect>
                 <textarea class="form-control" rows="3" v-model="note.note"></textarea>
               </template>
-              <div class="shadow-none p-3 bg-light rounded" v-else v-html="markdown(note.note)"></div>
+              <div class="shadow-none p-3 bg-light rounded" v-else-if="!!note.note" v-html="markdown(note.note)"></div>
             </div>
             <div class="row my-btn-group">
               <div class="col-md-6">
