@@ -11,8 +11,8 @@
     "lint": "eslint --ext .js,.vue src",
     "prettier": "prettier \"src/**/*.{js,vue}\"",
     "prettier:write": "npm run prettier -- --write",
-    "build": "npm run build:scss && cross-env NODE_ENV=production webpack --hide-modules",
-    "package": "npm run build:scss && cross-env NODE_ENV=production RELEASE=true webpack --hide-modules",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && npm run build:scss && cross-env NODE_ENV=production webpack --hide-modules",
+    "package": "export NODE_OPTIONS=--openssl-legacy-provider && npm run build:scss && cross-env NODE_ENV=production RELEASE=true webpack --hide-modules",
     "build-zip": "npm run package && node scripts/build-zip.js"
   },
   "husky": {
