@@ -101,6 +101,7 @@ export default {
 </script>
 
 <style lang="scss">
+// https://stackoverflow.com/a/63592166/4114408
 $zIndex: 999999999999;
 .saltynote {
   position: absolute;
