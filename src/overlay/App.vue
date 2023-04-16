@@ -81,18 +81,16 @@ export default {
   methods: {
     changeHighlightColor(color) {
       this.highlight.color = color;
-      console.log('highlight.color = ', this.highlight.color);
     },
     deleteHighlightPopover(noteId) {
       this.$delete(this.highlight.popover, noteId);
     },
     highlightClick(note, event) {
-      console.log('highlightClick...');
       this.$set(this.highlight.popover, note.id, {
         left: event.pageX,
         top: event.pageY,
         id: note.id,
-        comment: mdRender(note.note),
+        comment: mdRender(note.note || '*No comment*'),
       });
     },
     closeSideBar() {
