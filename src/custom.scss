@@ -17,4 +17,6 @@ div.saltynote {
   // Required
   @import 'bootstrap/scss/bootstrap';
   @import 'highlight.js/styles/github';
+
+  @import 'host-style-conflict-fix.scss';
 }
