@@ -1,0 +1,4 @@
+// fix https://github.com/SaltyNote/saltynote-chrome-extension/issues/35
+button.btn:before {
+  background: none;
+}
