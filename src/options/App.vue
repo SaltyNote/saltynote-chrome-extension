@@ -12,6 +12,7 @@
             <th>Domain</th>
             <th>Content</th>
             <th>Note</th>
+            <th>Tags</th>
             <th>Timestamp</th>
             <th></th>
           </tr>
@@ -52,7 +53,7 @@ export default {
       processing: true,
       dom: 'Blfrtip',
       buttons: ['copyHtml5', 'csvHtml5', 'print'],
-      columns: [{ width: '20%' }, { width: '35%' }, { width: '30%' }, { width: '10%' }, { width: '5%' }],
+      columns: [{ width: '20%' }, { width: '35%' }, { width: '20%' }, { width: '10%' }, { width: '10%' }, { width: '5%' }],
     });
     this.refreshTableData();
   },
@@ -66,6 +67,7 @@ export default {
               `<a href="${note.url}" target="_blank">${getUrlHostname(note.url)}</a>`,
               note.text,
               mdRender(note.note),
+              note.tags && note.tags.join(','),
               formatDate(note.createdTime),
               `<button type="button" data-id="${note.id}" class="btn btn-danger note-delete-btn">Delete</button>`,
             ])
