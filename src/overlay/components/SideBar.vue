@@ -104,7 +104,15 @@ import VueTagsInput from '@johmun/vue-tags-input';
 
 export default {
   name: 'SideBar',
-  components: { Login, Signup, SelectedTextBlockquote, NoAnnotationPlaceholder, CustomAnnotationCard, ColorSelect, VueTagsInput },
+  components: {
+    Login,
+    Signup,
+    SelectedTextBlockquote,
+    NoAnnotationPlaceholder,
+    CustomAnnotationCard,
+    ColorSelect,
+    VueTagsInput,
+  },
   data() {
     return {
       notes: [],
@@ -290,6 +298,11 @@ div.saltynote {
       margin-top: 5px;
       border-radius: 0.25rem;
     }
+  }
+
+  svg.svg-inline--fa {
+    width: 1em;
+    height: 1em;
   }
 }
 </style>
