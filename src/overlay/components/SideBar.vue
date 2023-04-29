@@ -36,8 +36,14 @@
               <template v-if="note.showSave">
                 <ColorSelect v-if="!note.isPageOnly" :color="getNoteHighlightColor(note)" @update:color="note.newHighlightColor = $event"></ColorSelect>
                 <textarea class="form-control" rows="3" v-model="note.note"></textarea>
+                <vue-tags-input v-model="tag" :tags="note.tags" @tags-changed="newTags => (note.tags = parseTags(newTags))" />
               </template>
-              <div class="shadow-none p-3 bg-light rounded" v-else-if="!!note.note" v-html="markdown(note.note)"></div>
+              <template v-else>
+                <div class="shadow-none p-3 bg-light rounded" v-if="!!note.note" v-html="markdown(note.note)"></div>
+                <div class="tags">
+                  <span v-for="tag in note.tags" :key="tag" class="badge badge-primary">{{ tag }}</span>
+                </div>
+              </template>
             </div>
             <div class="row my-btn-group">
               <div class="col-md-6">
@@ -94,10 +100,11 @@ import { readableTimestamp } from '../../utils/base';
 import SelectedTextBlockquote from './SelectedTextBlockquote';
 import Signup from './Signup';
 import Login from './Login';
+import VueTagsInput from '@johmun/vue-tags-input';
 
 export default {
   name: 'SideBar',
-  components: { Login, Signup, SelectedTextBlockquote, NoAnnotationPlaceholder, CustomAnnotationCard, ColorSelect },
+  components: { Login, Signup, SelectedTextBlockquote, NoAnnotationPlaceholder, CustomAnnotationCard, ColorSelect, VueTagsInput },
   data() {
     return {
       notes: [],
@@ -105,6 +112,7 @@ export default {
       showCustomNoteWindow: false,
       showLogin: false,
       showSignup: false,
+      tag: '',
     };
   },
 
@@ -214,47 +222,74 @@ export default {
         });
       }
     },
+    parseTags(newTags) {
+      if (!newTags) {
+        return [];
+      }
+      return newTags.map(tag => {
+        return tag.text;
+      });
+    },
   },
 };
 </script>
 
-<style scoped lang="scss">
-$zIndex: 9999;
-div#crx-side-bar.card.text-white {
-  height: 100vh;
-  width: 400px !important;
-  position: fixed;
-  background-color: #ffffff;
-  z-index: $zIndex;
-  right: 0;
-  box-shadow: -12px 0px 25px 0px rgba(0, 0, 0, 0.75);
-  border-radius: 10px;
+<style lang="scss">
+div.saltynote {
+  $zIndex: 9999;
 
-  .card-header {
-    color: white !important;
-  }
+  div#crx-side-bar.card.text-white {
+    height: 100vh;
+    width: 400px !important;
+    position: fixed;
+    background-color: #ffffff;
+    z-index: $zIndex;
+    right: 0;
+    box-shadow: -12px 0px 25px 0px rgba(0, 0, 0, 0.75);
+    border-radius: 10px;
 
-  .my-note {
-    font-weight: normal;
-  }
-
-  .my-btn-group {
-    a:first-child {
-      margin-right: 10px;
+    .card-header {
+      color: white !important;
     }
 
-    .del-btn {
+    .my-note {
+      font-weight: normal;
+    }
+
+    .my-btn-group {
+      a:first-child {
+        margin-right: 10px;
+      }
+
+      .del-btn {
+        color: red;
+      }
+    }
+
+    .logout a {
       color: red;
+      font-style: italic;
     }
   }
 
-  .logout a {
-    color: red;
-    font-style: italic;
+  .my-note path {
+    fill: red;
   }
-}
 
-.my-note path {
-  fill: red;
+  div.tags {
+    margin-top: 5px;
+
+    span.badge.badge-primary {
+      border-color: unset;
+      padding: 0.3rem;
+    }
+  }
+
+  .vue-tags-input {
+    .ti-input {
+      margin-top: 5px;
+      border-radius: 0.25rem;
+    }
+  }
 }
 </style>

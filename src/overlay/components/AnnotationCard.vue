@@ -165,29 +165,32 @@ export default {
 </script>
 
 <style lang="scss">
-$zIndex: 99999;
+div.saltynote {
+  $zIndex: 99999;
 
-#crx-comment-card {
-  position: absolute;
-  z-index: $zIndex;
+  #crx-comment-card {
+    position: absolute;
+    z-index: $zIndex;
 
-  #saltynote-form {
-    display: block !important;
-  }
-  .card-header {
-    padding: 5px;
-    color: white;
-  }
+    #saltynote-form {
+      display: block !important;
+    }
 
-  &.card {
-    width: 400px;
-    box-shadow: 18px 25px 16px 0 rgba(0, 0, 0, 0.49);
-  }
+    .card-header {
+      padding: 5px;
+      color: white;
+    }
 
-  .vue-tags-input {
-    .ti-input {
-      margin-top: 5px;
-      border-radius: 0.25rem;
+    &.card {
+      width: 400px;
+      box-shadow: 18px 25px 16px 0 rgba(0, 0, 0, 0.49);
+    }
+
+    .vue-tags-input {
+      .ti-input {
+        margin-top: 5px;
+        border-radius: 0.25rem;
+      }
     }
   }
 }

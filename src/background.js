@@ -115,6 +115,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       text: pa.text,
       note: removeScriptTags(pa.note),
       highlight_color: pa.highlightColor || defaultColor,
+      tags: pa.tags || [],
     };
     httpUtils
       .updatePageAnnotation(pageAnnotation)
