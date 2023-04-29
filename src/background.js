@@ -1,14 +1,23 @@
 import * as types from './utils/action-types';
 import * as httpUtils from './utils/http-utils';
-import { login, signup, emailVerify } from './utils/http-utils';
+import { emailVerify, login, signup } from './utils/http-utils';
 import { getSanitizedUrl } from './utils/urls';
 import { removeScriptTags } from './utils/base';
 import { defaultColor } from './utils/color';
 
 const askLogin = (tab, iconClick = false) => {
-  chrome.tabs.sendMessage(tab.id, { action: types.SHOW_SIDE_BAR, sub_action: types.SHOW_LOGIN, iconClick: iconClick, data: [] }, response => {
-    console.log(response);
-  });
+  chrome.tabs.sendMessage(
+    tab.id,
+    {
+      action: types.SHOW_SIDE_BAR,
+      sub_action: types.SHOW_LOGIN,
+      iconClick: iconClick,
+      data: [],
+    },
+    response => {
+      console.log(response);
+    }
+  );
 };
 
 const getNotes = (tab, actionType, iconClick = false) => {
@@ -76,8 +85,6 @@ chrome.action.onClicked.addListener(tab => {
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  // console.log('request received:', JSON.stringify(request));
-
   if (request.action === types.ADD_NOTE) {
     const pa = request.pageAnnotation;
     const pageAnnotation = {
@@ -85,6 +92,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       note: removeScriptTags(pa.note),
       highlight_color: pa.highlightColor || defaultColor,
       is_page_only: pa.isPageOnly || false,
+      tags: pa.tags || [],
       url: getSanitizedUrl(sender.tab.url),
     };
     httpUtils
@@ -107,6 +115,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       text: pa.text,
       note: removeScriptTags(pa.note),
       highlight_color: pa.highlightColor || defaultColor,
+      tags: pa.tags || [],
     };
     httpUtils
       .updatePageAnnotation(pageAnnotation)
