@@ -12,6 +12,7 @@
           <SelectedTextBlockquote :text="selectText" :class="highlightClass" />
           <ColorSelect :color="highlightColor" @update:color="changeHighlightColor"></ColorSelect>
           <textarea class="form-control" rows="3" placeholder="Your Notes Here" v-model="myComment"></textarea>
+          <vue-tags-input v-model="tag" :tags="tags" @tags-changed="newTags => (tags = newTags)" />
         </div>
         <span class="error-msg" v-if="errorMsg"> {{ errorMsg }}</span>
         <button type="submit" class="btn btn-primary float-right" @click.prevent.stop="submitNewNote">Add (ctrl + s)</button>
@@ -27,10 +28,11 @@ import $ from 'jquery';
 import * as types from '../../utils/action-types';
 import { submitPageAnnotation } from '../../utils/page-annotation';
 import SelectedTextBlockquote from './SelectedTextBlockquote';
+import VueTagsInput from '@johmun/vue-tags-input';
 
 export default {
   name: 'AnnotationCard',
-  components: { SelectedTextBlockquote, ColorSelect },
+  components: { SelectedTextBlockquote, ColorSelect, VueTagsInput },
   data() {
     return {
       showAnnotationCard: false,
@@ -47,6 +49,8 @@ export default {
         movementY: 0,
       },
       mouseEvent: {},
+      tag: '',
+      tags: [],
     };
   },
   mounted() {
@@ -93,17 +97,25 @@ export default {
       this.showAnnotationCard = false;
     },
     submitNewNote() {
+      const tagList =
+        this.tags &&
+        this.tags.map(tag => {
+          return tag.text;
+        });
       const pageAnnotation = {
         text: this.selectText,
         note: this.myComment,
         highlightColor: this.highlightColor,
+        tags: tagList,
       };
+
       submitPageAnnotation(pageAnnotation)
         .then(() => {
           // cleanup
           this.selectText = '';
           this.myComment = '';
           this.highlightColor = defaultColor;
+          this.tags = [];
           this.closeCard();
         })
         .catch(err => {
@@ -152,7 +164,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 $zIndex: 99999;
 
 #crx-comment-card {
@@ -170,6 +182,13 @@ $zIndex: 99999;
   &.card {
     width: 400px;
     box-shadow: 18px 25px 16px 0 rgba(0, 0, 0, 0.49);
+  }
+
+  .vue-tags-input {
+    .ti-input {
+      margin-top: 5px;
+      border-radius: 0.25rem;
+    }
   }
 }
 </style>
