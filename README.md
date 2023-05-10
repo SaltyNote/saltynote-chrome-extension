@@ -13,8 +13,10 @@
 > 
 > [Chrome Web Store](https://chrome.google.com/webstore/detail/saltynote/baanghljiehhpljdbonfknboakpfajnn)
 > 
-> [Documentation](./docs)
+> [Documentation](https://saltynote.github.io/saltynote-chrome-extension/) & [Blog Post](https://hzhou.me/2023/04/22/saltynote-implementation-chrome-extension/)
 
+## Overview
+![Overview](https://raw.githubusercontent.com/zhouhao/SaltyNote-Overview-Slides/master/assets/chrome-extension-overview.png)
 
 ## Get Started
 
@@ -26,4 +28,4 @@
 
 ## License
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSaltyNote%2Fsaltynote-chrome-extension.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FSaltyNote%2Fsaltynote-chrome-extension?ref=badge_large)
+MIT
